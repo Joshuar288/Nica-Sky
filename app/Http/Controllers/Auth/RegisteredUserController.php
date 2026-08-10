@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\City;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,13 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $cities = City::orderBy('name_city')->get();
+
+        $departments = City::select('name_departament')
+                        ->distinct()
+                        ->orderBy('name_departament')
+                        ->pluck('name_departament');
+        return view('auth.register', compact('cities', 'departments'));
     }
 
     /**
@@ -28,21 +35,26 @@ class RegisteredUserController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'name'          => ['required', 'string', 'max:255'],
+            'email'         => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'phone'         => ['required', 'string', 'max:20'],
+            'city_id'       => ['required', 'exists:cities,id'],
+            'name_bussines' => ['nullable', 'string', 'max:255'],
+            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'phone'         => $request->phone,
+            'city_id'       => $request->city_id,
+            'name_bussines' => $request->name_bussines,
+            'is_verified'   => false,
+            'password'      => Hash::make($request->password),
         ]);
-
-        event(new Registered($user));
 
         Auth::login($user);
 
