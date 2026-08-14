@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.disabled = true;
-        defaultOption.selected = true;
+        defaultOption.selected = true;  
         defaultOption.textContent = 'Seleccione su municipio';
         citySelect.appendChild(defaultOption);
 

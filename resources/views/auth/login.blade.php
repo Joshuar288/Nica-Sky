@@ -14,7 +14,7 @@
         
         <!-- Encabezado de la Tarjeta -->
         <div class="flex items-center gap-3 pb-6 border-b border-gray-200/60 mb-8">
-            <a href="/" class="flex items-center gap-2">
+            <a href="home" class="flex items-center gap-2">
                 <span class="bg-[#0f2137] text-white p-2 rounded-xl text-sm font-black">NS</span>
             </a>
             <h1 class="text-xl font-bold text-gray-900">Iniciar sesión</h1>

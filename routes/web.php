@@ -1,10 +1,26 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MyProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('landing');
+
+Route::get('/home', [HomeController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/myprofile', [MyProfileController::class, 'show'])->name('myprofile.show');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+    Route::post('/product', [ProductController::class, 'store'])->name('product.store');
 });
 
 Route::get('/dashboard', function () {
