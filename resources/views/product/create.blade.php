@@ -8,7 +8,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between border-b border-gray-100 pb-6">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Crear publicación</h1>
+                <h1 class="text-2xl font-bold text-gray-900">Crear publicacion</h1>
                 <p class="text-xs text-gray-400 mt-1">Ingresa los datos correspondientes para publicar tu producto en NicaSky</p>
             </div>
             <a href="{{ route('myprofile.show') }}" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-xs font-semibold flex items-center gap-2 transition">
@@ -26,28 +26,28 @@
                 <!-- Formulario Izquierda (7 columnas) -->
                 <div class="lg:col-span-7 space-y-6">
                     
-                    <!-- Información Principal -->
+                    <!-- Informacion Principal -->
                     <div class="space-y-4">
-                        <h3 class="text-base font-bold text-gray-900 border-b border-gray-50 pb-2">Información del producto</h3>
+                        <h3 class="text-base font-bold text-gray-900 border-b border-gray-50 pb-2">Informacion del producto</h3>
                         
                         <div>
-                            <label class="block text-xs font-semibold text-gray-700 mb-1">Título de la publicación</label>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Titulo de la publicacion</label>
                             <input type="text" id="inputTitle" name="title" value="{{ old('title') }}" placeholder="Ej. Nike Dunk Low" required
                                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                             @error('title') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-gray-700 mb-1">Descripción</label>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Descripcion</label>
                             <textarea id="inputDescription" name="description" rows="3" placeholder="Agrega una breve descripción..." required
                                       class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a] resize-none">{{ old('description') }}</textarea>
                             @error('description') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-gray-700 mb-1">Categoría</label>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Categoria</label>
                             <select id="selectCategory" name="category_id" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
-                                <option value="" disabled selected>Selecciona una categoría</option>
+                                <option value="" disabled selected>Selecciona una categoria</option>
                                 @foreach($categories->groupBy('type_category') as $type => $group)
                                     <optgroup label="{{ $type }}">
                                         @foreach($group as $category)
@@ -109,8 +109,8 @@
                             <div class="border-2 border-dashed border-gray-200 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#0b132a] transition relative bg-gray-50">
                                 <input type="file" id="inputImage" name="image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" required>
                                 <i class="bi bi-cloud-arrow-up text-3xl text-gray-400 mb-1"></i>
-                                <p class="text-xs font-medium text-gray-700">Haz clic para subir o arrastra la imagen aquí</p>
-                                <span class="text-[10px] text-gray-400 mt-1">PNG, JPG o WEBP (Máx. 2MB)</span>
+                                <p class="text-xs font-medium text-gray-700">Haz clic para subir o arrastra la imagen aqui</p>
+                                <span class="text-[10px] text-gray-400 mt-1">PNG, JPG o WEBP (Max. 2MB)</span>
                             </div>
                             @error('image') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
@@ -130,15 +130,15 @@
 
                         <div>
                             <div class="flex justify-between items-center mb-1">
-                                <h4 id="previewTitle" class="font-bold text-gray-900 text-xs truncate">Título del Producto</h4>
+                                <h4 id="previewTitle" class="font-bold text-gray-900 text-xs truncate">Titulo del Producto</h4>
                                 <span id="previewPrice" class="font-bold text-[#1d3557] text-xs">$0.00</span>
                             </div>
                             
                             <span id="previewCategory" class="inline-block text-[10px] font-semibold text-[#1d3557] bg-blue-50 px-2 py-0.5 rounded-md mb-2">
-                                Sin categoría
+                                Sin categoria
                             </span>
 
-                            <p id="previewDescription" class="text-[11px] text-gray-400 line-clamp-2 mb-3">La descripción de tu publicación aparecerá aquí.</p>
+                            <p id="previewDescription" class="text-[11px] text-gray-400 line-clamp-2 mb-3">La descripcion de tu publicación aparecerá aquí.</p>
                             
                             <div class="flex items-center justify-between pt-2.5 border-t border-gray-100 text-[10px] text-gray-400">
                                 <span id="previewState">Estado: Nuevo</span>
@@ -155,7 +155,7 @@
 
             </div>
 
-            <!-- Botón Único -->
+            <!-- Boton unico -->
             <div class="flex justify-end items-center pt-6 mt-8 border-t border-gray-100">
                 <button type="submit" class="px-8 py-3 bg-[#0b132a] hover:bg-[#162038] text-white rounded-full text-xs font-semibold transition shadow-sm">
                     Publicar Producto

@@ -17,13 +17,13 @@
             <a href="home" class="flex items-center gap-2">
                 <span class="bg-[#0f2137] text-white p-2 rounded-xl text-sm font-black">NS</span>
             </a>
-            <h1 class="text-xl font-bold text-gray-900">Iniciar sesión</h1>
+            <h1 class="text-xl font-bold text-gray-900">Iniciar sesion</h1>
         </div>
 
         <!-- Formulario -->
         <div class="space-y-5">
             
-            <!-- Estado de Sesión (Mensajes) -->
+            <!-- Estado de Sesion (Mensajes) -->
             @if (session('status'))
                 <div class="p-3 bg-green-50 border border-green-200 text-green-700 text-xs rounded-xl">
                     {{ session('status') }}
@@ -33,11 +33,11 @@
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
 
-                <!-- Correo Electrónico -->
+                <!-- Correo Electronico -->
                 <div class="space-y-1.5">
-                    <label for="email" class="block text-sm font-semibold text-gray-700">Correo electrónico</label>
+                    <label for="email" class="block text-sm font-semibold text-gray-700">Correo electronico</label>
                     <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
-                           placeholder="Ingrese su correo electrónico" 
+                           placeholder="Ingrese su correo electronico" 
                            class="w-full px-4 py-3 bg-white rounded-xl border-none outline-none focus:ring-2 focus:ring-[#0f2137] text-sm text-gray-700 placeholder-gray-400 shadow-sm">
                     @error('email')
                         <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
@@ -67,11 +67,11 @@
                     <label for="remember_me" class="inline-flex items-center cursor-pointer">
                         <input id="remember_me" type="checkbox" name="remember" 
                                class="rounded border-gray-300 text-[#0f2137] shadow-sm focus:ring-[#0f2137] w-4 h-4">
-                        <span class="ms-2 text-xs text-gray-600 font-medium">Recordar sesión</span>
+                        <span class="ms-2 text-xs text-gray-600 font-medium">Recordar sesion</span>
                     </label>
                 </div>
 
-                <!-- Botón Iniciar Sesión -->
+                <!-- Boton Iniciar Sesion -->
                 <button type="submit" class="w-full py-3 bg-[#0f2137] hover:bg-[#162d4a] text-white font-medium rounded-full text-sm shadow transition duration-200 mt-2">
                     Ingresar
                 </button>
@@ -79,7 +79,7 @@
 
             <!-- Enlace a Registro -->
             <div class="text-center text-xs text-gray-500 font-medium pt-1">
-                ¿No tienes una cuenta? <a href="{{ route('register') }}" class="text-blue-600 hover:underline font-semibold">Regístrate gratis</a>
+                ¿No tienes una cuenta? <a href="{{ route('register') }}" class="text-blue-600 hover:underline font-semibold">Registrate gratis</a>
             </div>
 
             <!-- Divisor 'O' -->

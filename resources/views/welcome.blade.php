@@ -8,7 +8,7 @@
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Iconos de Lucide o FontAwesome vía CDN (Opcional) -->
+    <!-- Iconos de Lucide o FontAwesome via CDN (Opcional) -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased">
@@ -24,10 +24,10 @@
                 </a>
             </div>
 
-            <!-- Navegación Central -->
+            <!-- Navegacion Central -->
             <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-gray-600">
                 <a href="#explorar" class="hover:text-blue-600 transition">Explorar Productos</a>
-                <a href="#como-funciona" class="hover:text-blue-600 transition">¿Cómo funciona?</a>
+                <a href="#como-funciona" class="hover:text-blue-600 transition">¿Como funciona?</a>
                 <a href="#emprendedores" class="hover:text-blue-600 transition">Para Emprendedores</a>
                 <a href="#proveedores" class="hover:text-blue-600 transition">Proveedores</a>
             </nav>
@@ -36,7 +36,7 @@
             <div class="flex items-center space-x-3">
                 @if (Route::has('login'))
                     @auth
-                        <a href="{{ url('/dashboard') }}" class="px-4 py-2 text-sm font-bold text-gray-700 hover:text-blue-600">Mi Cuenta</a>
+                        <a href="{{ url('home') }}" class="px-4 py-2 text-sm font-bold text-gray-700 hover:text-blue-600">Mi Cuenta</a>
                     @else
                         <a href="{{ route('login') }}" class="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-blue-600">Ingresar</a>
                         @if (Route::has('register'))
@@ -66,7 +66,7 @@
             <!-- Buscador Rapido -->
             <div class="pt-2 max-w-2xl mx-auto">
                 <form action="#" method="GET" class="flex flex-col sm:flex-row gap-2 bg-white p-2 rounded-2xl shadow-lg border border-gray-100">
-                    <input type="text" name="q" placeholder="¿Qué producto, servicio o proveedor buscas hoy?" class="w-full px-4 py-3 text-sm rounded-xl focus:outline-none border-none text-gray-700">
+                    <input type="text" name="q" placeholder="¿Que producto, servicio o proveedor buscas hoy?" class="w-full px-4 py-3 text-sm rounded-xl focus:outline-none border-none text-gray-700">
                     <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm transition flex items-center justify-center gap-2">
                         Buscar
                     </button>
@@ -100,7 +100,7 @@
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-2">Emprendedores</h3>
                 <p class="text-gray-600 text-sm leading-relaxed">
-                    Crea tu catálogo digital, promociona tus productos o servicios y llega a más clientes sin complicaciones.
+                    Crea tu catalogo digital, promociona tus productos o servicios y llega a mas clientes sin complicaciones.
                 </p>
             </div>
 
@@ -111,7 +111,7 @@
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-2">Compradores</h3>
                 <p class="text-gray-600 text-sm leading-relaxed">
-                    Descubre ofertas locales, apoya el comercio nacional y contacta directamente con los vendedores de forma rápida.
+                    Descubre ofertas locales, apoya el comercio nacional y contacta directamente con los vendedores de forma rapida.
                 </p>
             </div>
 
