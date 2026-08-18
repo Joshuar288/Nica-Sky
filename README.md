@@ -20,7 +20,7 @@ El sistema permite a los usuarios registrarse como compradores o vendedores, pub
 - HTML5
 - CSS3
 - JavaScript
-- BootStrap
+- Taildwind
 
 ### Base de Datos
 - MySQL
@@ -70,12 +70,11 @@ php artisan migrate
 
 ## Ejecución del Sistema
 
-### 1. Compilar assets
+### 1. Compilar assets y vite
 
 npm run dev
 
 ### 2. Levantar el servidor
-
 
 php artisan serve
 
