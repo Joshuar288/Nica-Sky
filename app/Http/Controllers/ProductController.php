@@ -10,7 +10,28 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-public function create()
+    public function index(Request $request)
+    {
+        // 1. Obtener el precio mínimo y máximo real de la base de datos
+        $minPriceDb = (float) Product::min('price') ?? 0;
+        $maxPriceDb = (float) Product::max('price') ?? 1000;
+        $partPrice = ($maxPriceDb - $minPriceDb) / 4;
+
+        // 2. Capturar el precio seleccionado (si no hay selección, usa el máximo)
+        $selectedPrice = $request->input('priceFilter', $maxPriceDb);
+
+        // 3. Filtrar los productos por el rango seleccionado
+        $products = Product::where('price', '<=', $selectedPrice)
+            ->latest()
+            ->paginate(12)
+            ->appends($request->query()); // Mantiene el filtro al cambiar de página
+
+        $categories = Category::orderBy('type_category')->orderBy('name')->get();
+
+        return view('product.index', compact('products', 'categories', 'minPriceDb', 'maxPriceDb', 'selectedPrice', 'partPrice'));
+    }
+
+    public function create()
     {
         // Ordena por type_category y luego por name
         $categories = Category::orderBy('type_category')->orderBy('name')->get();
@@ -18,7 +39,7 @@ public function create()
         return view('product.create', compact('categories'));
     }
 
-public function store(Request $request)
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',

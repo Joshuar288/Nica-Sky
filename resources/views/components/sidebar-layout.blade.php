@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'NicaSky' }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/nicastyle.css'])
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<body class="bg-gray-50 font-sans flex min-h-screen">
+<body class="bg-gray-50 font-sans flex h-screen overflow-hidden">
 
     <!-- Sidebar Fijo a la Izquierda -->
     <aside class="w-64 bg-[#0b132a] text-white flex flex-col justify-between p-5 min-h-screen flex-shrink-0 sticky top-0 h-screen">
@@ -25,7 +25,7 @@
                     <i class="bi bi-house-door text-base"></i>
                     <span>Inicio</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-[#162038] font-medium text-sm transition {{ request()->routeIs('product') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
+                <a href="{{ route('product.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-[#162038] font-medium text-sm transition {{ request()->routeIs('product') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
                     <i class="bi bi-grid text-base"></i>
                     <span>Productos</span>
                 </a>
@@ -60,9 +60,9 @@
     </aside>
 
     <!-- Contenido Dinámico de cada Vista -->
-    <main class="flex-1 p-8 overflow-y-auto">
+    <main class="flex-1 px-8 my-5 h-full overflow-y-auto bg-[#f8f8f8]">
         <!-- Header Superior Común -->
-        <header class="flex justify-end items-center gap-3 mb-8">
+        <header class="flex justify-end items-center gap-3 rounded-full p-2 mb-1 mt-0 sticky top-0 bg-[#ffffff] z-10">
             <button class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm">
                 <i class="bi bi-bell text-lg"></i>
             </button>

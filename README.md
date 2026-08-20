@@ -20,7 +20,7 @@ El sistema permite a los usuarios registrarse como compradores o vendedores, pub
 - HTML5
 - CSS3
 - JavaScript
-- BootStrap
+- Tailwind
 
 ### Base de Datos
 - MySQL
@@ -44,7 +44,7 @@ code .
 
 ### 2. Instalar dependencias de PHP
 Dentro instala y actualiza las dependencias
-composer install o 
+composer install o composer update
 
 ### 3. Instalar dependencias de frontend
 
@@ -70,7 +70,7 @@ php artisan migrate
 
 ## Ejecución del Sistema
 
-### 1. Compilar assets
+### 1. Compilar assets y activar vite
 
 npm run dev
 
