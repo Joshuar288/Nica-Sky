@@ -76,7 +76,6 @@ npm run dev
 
 ### 2. Levantar el servidor
 
-
 php artisan serve
 
 ### 3. Acceder a la aplicación
