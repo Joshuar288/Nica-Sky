@@ -13,7 +13,7 @@ El sistema permite a los usuarios registrarse como compradores o vendedores, pub
 
 ### Backend
 - Laravel (Framework PHP)
-- PHP 8+
+- PHP 8.3
 
 ### Frontend
 - Blade (motor de plantillas de Laravel)
@@ -94,7 +94,7 @@ http://localhost:8000
 ---
 
 
-Proyecto desarrollado como parte de una solución para fomentar el emprendimiento digital impulsado por el evento HACKATHON 2026.
+Proyecto desarrollado como parte de una solución para fomentar el emprendimiento digital impulsado por el festival tecnologico mas grande del pais. HACKATHON Nicaragua Kronnox 2026.
 
 ---
 

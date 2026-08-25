@@ -107,7 +107,7 @@
                     </button>
 
                     <!-- Imagen del Producto -->
-                    <div class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative">
+                    <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
                         @if($product->images->isNotEmpty())
                             <img src="{{ asset('storage/' . $product->images->first()->rute) }}" 
                                  alt="{{ $product->title }}" 
@@ -121,7 +121,7 @@
                                 {{ $product->state }}
                             </span>
                         @endif
-                    </div>
+                    </a>
 
                     <!-- Informacion del Producto -->
                     <div>

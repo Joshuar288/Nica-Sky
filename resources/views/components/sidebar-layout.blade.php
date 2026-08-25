@@ -63,12 +63,24 @@
     <main class="flex-1 px-8 my-5 h-full overflow-y-auto bg-[#f8f8f8]">
         <!-- Header Superior Común -->
         <header class="flex justify-end items-center gap-3 rounded-full p-2 mb-1 mt-0 sticky top-0 bg-[#ffffff] z-10">
-            <button class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm">
+            <a href="{{ route('notifications.index') }}" class="relative w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm" aria-label="Ver notificaciones">
                 <i class="bi bi-bell text-lg"></i>
-            </button>
-            <button class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm">
+                @php($unreadNotificationCount = auth()->user()->unreadNotifications()->count())
+                @if($unreadNotificationCount > 0)
+                    <span class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
+                        {{ $unreadNotificationCount > 99 ? '99+' : $unreadNotificationCount }}
+                    </span>
+                @endif
+            </a>
+            <a href="{{ route('cart.index') }}" class="relative w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm" aria-label="Ver carrito">
                 <i class="bi bi-bag text-lg"></i>
-            </button>
+                @php($cartCount = array_sum(session('cart', [])))
+                @if($cartCount > 0)
+                    <span class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[#1d3557] text-white text-[10px] font-bold flex items-center justify-center">
+                        {{ $cartCount > 99 ? '99+' : $cartCount }}
+                    </span>
+                @endif
+            </a>
             <button class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm">
                 <i class="bi bi-person-circle text-lg"></i>
             </button>

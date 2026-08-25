@@ -13,18 +13,18 @@
         </div>
 
         <div class= "body-section-carousel" id="carousell-1">
-            @foreach($products as $product)
-                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative group hover:shadow-md transition">
+            @foreach($popularProducts as $product)
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col flex-[0_0_calc(25%-1.6rem)] justify-between relative group hover:shadow-md transition">
                     <!-- Boton Carrito -->
                     <button class="absolute top-6 left-6 z-10 w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition">
                         <i class="bi bi-cart text-xs"></i>
                     </button>
 
                     <!-- Imagen del Producto -->
-                    <div class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative">
+                    <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
                         @if($product->images->isNotEmpty())
-                            <img src="{{ asset('storage/' . $product->images->first()->rute) }}" 
-                                 alt="{{ $product->title }}" 
+                            <img src="{{ asset('storage/' . $product->images->first()->rute) }}"
+                                 alt="{{ $product->title }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         @else
                             <i class="bi bi-image text-3xl text-gray-300"></i>
@@ -35,7 +35,7 @@
                                 {{ $product->state }}
                             </span>
                         @endif
-                    </div>
+                    </a>
 
                     <!-- Informacion del Producto -->
                     <div>
@@ -43,9 +43,9 @@
                             <h3 class="font-bold text-gray-900 text-sm truncate" title="{{ $product->title }}">{{ $product->title }}</h3>
                             <span class="font-bold text-[#1d3557] text-sm">C$ {{ number_format($product->price, 2) }}</span>
                         </div>
-                        
+
                         <p class="text-xs text-gray-400 line-clamp-2 mb-4">{{ $product->description }}</p>
-                        
+
                         <div class="flex items-center justify-between pt-3 border-t border-gray-100 text-[11px] text-gray-400">
                             <div class="flex items-center gap-2">
                                 <div class="w-5 h-5 rounded-full bg-gray-300 overflow-hidden shrink-0">
@@ -75,7 +75,7 @@
         </div>
 
         <div class= "body-section-carousel" id="carousell-2">
-            @foreach($products as $product)
+            @foreach($recommendedProducts as $product)
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col flex-[0_0_calc(25%-1.6rem)] justify-between relative group hover:shadow-md transition">
                     <!-- Boton Carrito -->
                     <button class="absolute top-6 left-6 z-10 w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition">
@@ -83,10 +83,10 @@
                     </button>
 
                     <!-- Imagen del Producto -->
-                    <div class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative">
+                    <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
                         @if($product->images->isNotEmpty())
-                            <img src="{{ asset('storage/' . $product->images->first()->rute) }}" 
-                                 alt="{{ $product->title }}" 
+                            <img src="{{ asset('storage/' . $product->images->first()->rute) }}"
+                                 alt="{{ $product->title }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         @else
                             <i class="bi bi-image text-3xl text-gray-300"></i>
@@ -97,7 +97,7 @@
                                 {{ $product->state }}
                             </span>
                         @endif
-                    </div>
+                    </a>
 
                     <!-- Informacion del Producto -->
                     <div>
@@ -105,9 +105,9 @@
                             <h3 class="font-bold text-gray-900 text-sm truncate" title="{{ $product->title }}">{{ $product->title }}</h3>
                             <span class="font-bold text-[#1d3557] text-sm">C$ {{ number_format($product->price, 2) }}</span>
                         </div>
-                        
+
                         <p class="text-xs text-gray-400 line-clamp-2 mb-4">{{ $product->description }}</p>
-                        
+
                         <div class="flex items-center justify-between pt-3 border-t border-gray-100 text-[11px] text-gray-400">
                             <div class="flex items-center gap-2">
                                 <div class="w-5 h-5 rounded-full bg-gray-300 overflow-hidden shrink-0">
