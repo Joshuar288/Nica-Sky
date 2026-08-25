@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Product;
 use App\Models\Image;
 
@@ -12,23 +13,64 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. Obtener el precio mínimo y máximo real de la base de datos
-        $minPriceDb = (float) Product::min('price') ?? 0;
-        $maxPriceDb = (float) Product::max('price') ?? 1000;
+        $validated = $request->validate([
+            'priceFilter' => ['nullable', 'numeric', 'min:0'],
+            'departmentFilter' => ['nullable', 'string', 'max:255'],
+            'cityFilter' => ['nullable', 'integer', 'exists:cities,id'],
+            'categoryFilter' => ['nullable', 'integer', 'exists:categories,id'],
+        ]);
+
+        $minPriceDb = (float) (Product::min('price') ?? 0);
+        $maxPriceDb = (float) (Product::max('price') ?? 0);
         $partPrice = ($maxPriceDb - $minPriceDb) / 4;
+        $priceOptions = collect(range(1, 4))
+            ->map(fn (int $part) => $minPriceDb + ($partPrice * $part))
+            ->unique()
+            ->values();
 
-        // 2. Capturar el precio seleccionado (si no hay selección, usa el máximo)
-        $selectedPrice = $request->input('priceFilter', $maxPriceDb);
+        $selectedPrice = isset($validated['priceFilter'])
+            ? min((float) $validated['priceFilter'], $maxPriceDb)
+            : $maxPriceDb;
+        $selectedDepartment = $validated['departmentFilter'] ?? null;
+        $selectedCity = $validated['cityFilter'] ?? null;
+        $selectedCategory = $validated['categoryFilter'] ?? null;
 
-        // 3. Filtrar los productos por el rango seleccionado
-        $products = Product::where('price', '<=', $selectedPrice)
+        $products = Product::with(['images', 'user.city'])
+            ->when($maxPriceDb > 0, fn ($query) => $query->where('price', '<=', $selectedPrice))
+            ->when($selectedDepartment, function ($query, $department) {
+                $query->whereHas('user.city', fn ($cityQuery) => $cityQuery->where('name_departament', $department));
+            })
+            ->when($selectedCity, function ($query, $cityId) {
+                $query->whereHas('user', fn ($userQuery) => $userQuery->where('city_id', $cityId));
+            })
+            ->when($selectedCategory, fn ($query, $categoryId) => $query->where('category_id', $categoryId))
             ->latest()
             ->paginate(12)
-            ->appends($request->query()); // Mantiene el filtro al cambiar de página
+            ->withQueryString();
 
-        $categories = Category::orderBy('type_category')->orderBy('name')->get();
+        $categories = Category::whereHas('products')
+            ->orderBy('type_category')
+            ->orderBy('name')
+            ->get();
+        $cities = City::whereHas('users.products')
+            ->orderBy('name_departament')
+            ->orderBy('name_city')
+            ->get();
+        $departments = $cities->pluck('name_departament')->unique()->values();
 
-        return view('product.index', compact('products', 'categories', 'minPriceDb', 'maxPriceDb', 'selectedPrice', 'partPrice'));
+        return view('product.index', compact(
+            'products',
+            'categories',
+            'cities',
+            'departments',
+            'minPriceDb',
+            'maxPriceDb',
+            'selectedPrice',
+            'selectedDepartment',
+            'selectedCity',
+            'selectedCategory',
+            'priceOptions'
+        ));
     }
 
     public function create()
@@ -37,6 +79,21 @@ class ProductController extends Controller
         $categories = Category::orderBy('type_category')->orderBy('name')->get();
 
         return view('product.create', compact('categories'));
+    }
+
+    public function show(Product $product)
+    {
+        $product->increment('views_count');
+        $product->load(['images', 'category', 'user.city']);
+
+        $relatedProducts = Product::with(['images', 'user'])
+            ->where('category_id', $product->category_id)
+            ->whereKeyNot($product->getKey())
+            ->latest()
+            ->limit(4)
+            ->get();
+
+        return view('product.show', compact('product', 'relatedProducts'));
     }
 
     public function store(Request $request)

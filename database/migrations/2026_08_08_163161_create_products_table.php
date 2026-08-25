@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('unit');
             $table->integer('stock')->nullable();
             $table->string('state');
+            $table->unsignedBigInteger('views_count')->default(0)->index();
             $table->timestamps();
         });
     }

@@ -9,7 +9,17 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::with('images', 'user')->get();
-        return view('home', compact('products'));
+        $popularProducts = Product::with(['images', 'user'])
+            ->orderByDesc('views_count')
+            ->latest()
+            ->limit(8)
+            ->get();
+
+        $recommendedProducts = Product::with(['images', 'user'])
+            ->latest()
+            ->limit(8)
+            ->get();
+
+        return view('home', compact('popularProducts', 'recommendedProducts'));
     }
 }

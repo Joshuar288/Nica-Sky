@@ -22,6 +22,13 @@ class Product extends Model
         'state',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'views_count' => 'integer',
+        ];
+    }
+
     /**
      * Get the user that owns the Product
      */
