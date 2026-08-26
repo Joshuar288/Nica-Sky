@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
@@ -20,12 +21,14 @@ class Product extends Model
         'unit',
         'stock',
         'state',
+        'is_recommended',
     ];
 
     protected function casts(): array
     {
         return [
             'views_count' => 'integer',
+            'is_recommended' => 'boolean',
         ];
     }
 
@@ -59,5 +62,10 @@ class Product extends Model
     public function qualifications(): HasMany
     {
         return $this->hasMany(Qualification::class);
+    }
+
+    public function viewers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'product_views')->withTimestamps();
     }
 }

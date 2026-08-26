@@ -4,16 +4,16 @@
     </x-slot:title>
 
     <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 space-y-8">
-        
+
         <!-- Header del Perfil -->
         <div class="flex flex-col md:flex-row gap-8 items-start justify-between relative">
-            
+
             <!-- Columna Izquierda: Foto y Datos Contacto -->
             <div class="flex gap-6 items-start">
                 <div class="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 border-2 border-gray-100 shadow-sm bg-gray-50 flex items-center justify-center">
                     <!-- Generador de avatar dinamico con el nombre del usuario -->
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name_bussines ?? $user->name) }}&background=0b132a&color=fff&size=128" 
-                         alt="{{ $user->name }}" 
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name_bussines ?? $user->name) }}&background=0b132a&color=fff&size=128"
+                         alt="{{ $user->name }}"
                          class="w-full h-full object-cover">
                 </div>
 
@@ -22,7 +22,7 @@
                     <h1 class="text-3xl font-bold text-gray-900">
                         {{ $user->name_bussines ?? $user->name }}
                     </h1>
-                    
+
                     <div class="space-y-1.5 text-xs text-gray-500 font-medium">
                         <div class="flex items-center gap-2">
                             <i class="bi bi-person text-gray-400 text-sm"></i>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <i class="bi bi-geo-alt text-gray-400 text-sm"></i>
-                            <span>{{ $user->city->name ?? 'Ubicacion no especificada' }}</span>
+                            <span>{{ $user->city->name_departament ?? 'Ubicacion no especificada' }}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <i class="bi bi-telephone text-gray-400 text-sm"></i>
@@ -55,43 +55,20 @@
             </div>
         </div>
 
-        <!-- Redes Sociales -->
-        <div class="flex items-center gap-4 pt-2 border-t border-gray-100 text-xs">
-            <span class="font-bold text-gray-700">Redes sociales:</span>
-            <div class="flex items-center gap-3 font-medium text-[#1d3557]">
-                <a href="#" class="flex items-center gap-1.5 hover:underline">
-                    <i class="bi bi-instagram text-sm"></i>
-                    <span>Instagram</span>
-                </a>
-                <a href="#" class="flex items-center gap-1.5 hover:underline">
-                    <i class="bi bi-twitter-x text-sm"></i>
-                    <span>Twitter/X</span>
-                </a>
-                <a href="#" class="flex items-center gap-1.5 hover:underline">
-                    <i class="bi bi-linkedin text-sm"></i>
-                    <span>Linkedin</span>
-                </a>
-            </div>
+        <div class="border-t border-gray-100 pt-6">
+            <h2 class="text-sm font-bold text-gray-900 mb-2">Acerca de {{ $user->name_bussines ?? $user->name }}</h2>
+            @if($user->description)
+                <p class="text-sm leading-7 text-gray-500 whitespace-pre-line">{{ $user->description }}</p>
+            @else
+                <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-gray-50 border border-dashed border-gray-200 p-4">
+                    <p class="text-sm text-gray-400">Añade una descripción para que los visitantes conozcan mejor tu tienda.</p>
+                    <a href="{{ route('profile.edit') }}" class="shrink-0 text-xs font-semibold text-[#1d3557] hover:underline">Añadir descripción</a>
+                </div>
+            @endif
         </div>
 
-        <!-- Pestañas de Navegacion y Boton Crear Publicacion -->
-        <div class="flex flex-col sm:flex-row items-center justify-between border-b border-gray-100 gap-4 pt-4">
-            <div class="flex gap-8">
-                <button class="pb-3 text-2xl font-bold text-gray-900 border-b-2 border-[#1d3557]">
-                    Catalogo
-                </button>
-                <button class="pb-3 text-2xl font-bold text-gray-400 hover:text-gray-600 transition">
-                    Inventario
-                </button>
-                <button class="pb-3 text-2xl font-bold text-gray-400 hover:text-gray-600 transition">
-                    Salidas
-                </button>
-                <button class="pb-3 text-2xl font-bold text-gray-400 hover:text-gray-600 transition">
-                    Reseñas
-                </button>
-            </div>
-
-            <a href="{{ route('product.create') }}" class="px-5 py-2.5 bg-[#0b132a] hover:bg-[#162038] text-white rounded-full text-xs font-semibold flex items-center gap-2 transition shadow-sm mb-2">
+        <div class="flex justify-center">
+            <a href="{{ route('product.create') }}" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#0b132a] hover:bg-[#162038] text-white rounded-full text-xs font-semibold transition shadow-sm">
                 <i class="bi bi-plus-lg text-sm"></i>
                 <span>Crear publicacion</span>
             </a>
@@ -109,8 +86,8 @@
                     <!-- Imagen del Producto -->
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
                         @if($product->images->isNotEmpty())
-                            <img src="{{ asset('storage/' . $product->images->first()->rute) }}" 
-                                 alt="{{ $product->title }}" 
+                            <img src="{{ $product->images->first()->url }}"
+                                 alt="{{ $product->title }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         @else
                             <i class="bi bi-image text-3xl text-gray-300"></i>
@@ -129,9 +106,9 @@
                             <h3 class="font-bold text-gray-900 text-sm truncate" title="{{ $product->title }}">{{ $product->title }}</h3>
                             <span class="font-bold text-[#1d3557] text-sm">C$ {{ number_format($product->price, 2) }}</span>
                         </div>
-                        
+
                         <p class="text-xs text-gray-400 line-clamp-2 mb-4">{{ $product->description }}</p>
-                        
+
                         <div class="flex items-center justify-between pt-3 border-t border-gray-100 text-[11px] text-gray-400">
                             <div class="flex items-center gap-2">
                                 <div class="w-5 h-5 rounded-full bg-gray-300 overflow-hidden shrink-0">

@@ -23,7 +23,7 @@
                     <!-- Imagen del Producto -->
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
                         @if($product->images->isNotEmpty())
-                            <img src="{{ asset('storage/' . $product->images->first()->rute) }}"
+                            <img src="{{ $product->images->first()->url }}"
                                  alt="{{ $product->title }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         @else
@@ -51,7 +51,7 @@
                                 <div class="w-5 h-5 rounded-full bg-gray-300 overflow-hidden shrink-0">
                                     <img src="https://ui-avatars.com/api/?name={{ urlencode($product->user->name) }}&background=random" class="w-full h-full object-cover">
                                 </div>
-                                <span class="truncate max-w-[90px]">{{ $product->user->name }}</span>
+                                <a href="{{ route('users.show', $product->user) }}" class="truncate max-w-[90px] hover:text-[#1d3557] hover:underline">{{ $product->user->name }}</a>
                             </div>
                             <span>• {{ $product->created_at->diffForHumans() }}</span>
                         </div>
@@ -61,7 +61,7 @@
         </div>
 
         <div class="flex justify-center mt-6">
-            <a href="#" class="px-3 py-2 bg-gray-50 border border-gray-400 text-[#0b132a] rounded-3xl hover:bg-gray-200 transition">Ver más productos</a>
+            <a href="{{ route('product.popular') }}" class="px-3 py-2 bg-gray-50 border border-gray-400 text-[#0b132a] rounded-3xl hover:bg-gray-200 transition">Ver todos</a>
         </div>
     </section>
 
@@ -85,7 +85,7 @@
                     <!-- Imagen del Producto -->
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
                         @if($product->images->isNotEmpty())
-                            <img src="{{ asset('storage/' . $product->images->first()->rute) }}"
+                            <img src="{{ $product->images->first()->url }}"
                                  alt="{{ $product->title }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         @else
@@ -113,7 +113,7 @@
                                 <div class="w-5 h-5 rounded-full bg-gray-300 overflow-hidden shrink-0">
                                     <img src="https://ui-avatars.com/api/?name={{ urlencode($product->user->name) }}&background=random" class="w-full h-full object-cover">
                                 </div>
-                                <span class="truncate max-w-[90px]">{{ $product->user->name }}</span>
+                                <a href="{{ route('users.show', $product->user) }}" class="truncate max-w-[90px] hover:text-[#1d3557] hover:underline">{{ $product->user->name }}</a>
                             </div>
                             <span>• {{ $product->created_at->diffForHumans() }}</span>
                         </div>
@@ -123,7 +123,7 @@
         </div>
 
         <div class="flex justify-center mt-6">
-            <a href="#" class="px-3 py-2 bg-gray-50 border border-gray-400 text-[#0b132a] rounded-3xl hover:bg-gray-200 transition">Ver más productos</a>
+            <a href="{{ route('product.recommended') }}" class="px-3 py-2 bg-gray-50 border border-gray-400 text-[#0b132a] rounded-3xl hover:bg-gray-200 transition">Ver todos</a>
         </div>
     </section>
 </x-sidebar-layout>

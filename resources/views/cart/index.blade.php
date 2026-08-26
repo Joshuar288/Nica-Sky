@@ -41,7 +41,7 @@
                         <article class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row gap-5">
                             <a href="{{ route('product.show', $product) }}" class="w-full sm:w-36 h-36 shrink-0 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center">
                                 @if($product->images->isNotEmpty())
-                                    <img src="{{ asset('storage/' . $product->images->first()->rute) }}" alt="{{ $product->title }}" class="w-full h-full object-cover">
+                                    <img src="{{ $product->images->first()->url }}" alt="{{ $product->title }}" class="w-full h-full object-cover">
                                 @else
                                     <i class="bi bi-image text-3xl text-gray-300"></i>
                                 @endif
@@ -67,7 +67,7 @@
                                         @csrf
                                         @method('PATCH')
                                         <label for="quantity-{{ $product->id }}" class="text-xs text-gray-400">Cantidad</label>
-                                        <input id="quantity-{{ $product->id }}" name="quantity" type="number" min="1" max="99" value="{{ $product->cart_quantity }}" class="w-16 rounded-lg border-gray-200 text-sm py-2 focus:border-[#1d3557] focus:ring-[#1d3557]">
+                                        <input id="quantity-{{ $product->id }}" name="quantity" type="number" min="1" max="99" value="{{ $product->cart_quantity }}" class="w-16 px-3 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                                         <button type="submit" class="text-xs font-semibold text-[#1d3557] hover:underline">Actualizar</button>
                                     </form>
                                     <p class="font-bold text-[#1d3557]">C$ {{ number_format($product->cart_subtotal, 2) }}</p>

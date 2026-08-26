@@ -4,7 +4,7 @@
     </x-slot:title>
 
     <div class="max-w-5xl mx-auto bg-white rounded-3xl p-8 shadow-sm border border-gray-100 space-y-8">
-        
+
         <!-- Header -->
         <div class="flex items-center justify-between border-b border-gray-100 pb-6">
             <div>
@@ -22,14 +22,14 @@
             @csrf
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
+
                 <!-- Formulario Izquierda (7 columnas) -->
                 <div class="lg:col-span-7 space-y-6">
-                    
+
                     <!-- Informacion Principal -->
                     <div class="space-y-4">
                         <h3 class="text-base font-bold text-gray-900 border-b border-gray-50 pb-2">Informacion del producto</h3>
-                        
+
                         <div>
                             <label class="block text-xs font-semibold text-gray-700 mb-1">Titulo de la publicacion</label>
                             <input type="text" id="inputTitle" name="title" value="{{ old('title') }}" placeholder="Ej. Nike Dunk Low" required
@@ -100,6 +100,37 @@
                         </div>
                     </div>
 
+                    <div class="space-y-3 pt-2">
+                        <h3 class="text-base font-bold text-gray-900 border-b border-gray-50 pb-2">Visibilidad recomendada</h3>
+
+                        @if($user->canSelectRecommendations())
+                            @php($recommendationLimitReached = $recommendedCount >= $recommendedLimit)
+                            <label class="flex items-start gap-3 p-4 rounded-2xl border {{ $recommendationLimitReached ? 'border-gray-200 bg-gray-50' : 'border-blue-100 bg-blue-50/50 cursor-pointer' }}">
+                                <input type="checkbox" name="is_recommended" value="1" @checked(old('is_recommended')) @disabled($recommendationLimitReached) class="mt-0.5 rounded text-[#1d3557] focus:ring-[#1d3557]">
+                                <span>
+                                    <span class="block text-xs font-semibold text-gray-800">Mostrar esta publicación en recomendados</span>
+                                    <span class="block text-[11px] text-gray-500 mt-1">
+                                        Estás usando {{ $recommendedCount }} de {{ $recommendedLimit }} espacios disponibles en tu plan.
+                                    </span>
+                                </span>
+                            </label>
+                            @if($recommendationLimitReached)
+                                <p class="text-xs text-amber-600">Alcanzaste el límite de tu plan. Puedes publicar el producto, pero no marcarlo como recomendado.</p>
+                            @endif
+                            @error('is_recommended') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                        @elseif($user->plan === 'pro_3')
+                            <div class="flex items-start gap-3 p-4 rounded-2xl border border-green-100 bg-green-50 text-xs text-green-700">
+                                <i class="bi bi-check-circle-fill mt-0.5"></i>
+                                <p>Tu plan Pro Nica incluye todas tus publicaciones en recomendados automáticamente.</p>
+                            </div>
+                        @else
+                            <div class="flex items-center justify-between gap-4 p-4 rounded-2xl border border-gray-200 bg-gray-50">
+                                <p class="text-xs text-gray-500">El plan gratuito no incluye publicaciones recomendadas.</p>
+                                <a href="{{ route('premium.show') }}" class="shrink-0 text-xs font-semibold text-[#1d3557] hover:underline">Ver planes</a>
+                            </div>
+                        @endif
+                    </div>
+
                     <!-- Multimedia -->
                     <div class="space-y-4 pt-2">
                         <h3 class="text-base font-bold text-gray-900 border-b border-gray-50 pb-2">Imagen</h3>
@@ -121,7 +152,7 @@
                 <!-- Columna Derecha: Vista Previa Fija (5 columnas) -->
                 <div class="lg:col-span-5 bg-gray-50/70 p-5 rounded-2xl border border-gray-100 sticky top-6">
                     <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider mb-3 block">Vista previa en tiempo real</span>
-                    
+
                     <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between">
                         <div class="h-48 rounded-xl overflow-hidden mb-3 bg-gray-100 flex items-center justify-center relative">
                             <img id="previewImage" class="w-full h-full object-cover hidden">
@@ -133,13 +164,13 @@
                                 <h4 id="previewTitle" class="font-bold text-gray-900 text-xs truncate">Titulo del Producto</h4>
                                 <span id="previewPrice" class="font-bold text-[#1d3557] text-xs">$0.00</span>
                             </div>
-                            
+
                             <span id="previewCategory" class="inline-block text-[10px] font-semibold text-[#1d3557] bg-blue-50 px-2 py-0.5 rounded-md mb-2">
                                 Sin categoria
                             </span>
 
                             <p id="previewDescription" class="text-[11px] text-gray-400 line-clamp-2 mb-3">La descripcion de tu publicación aparecerá aquí.</p>
-                            
+
                             <div class="flex items-center justify-between pt-2.5 border-t border-gray-100 text-[10px] text-gray-400">
                                 <span id="previewState">Estado: Nuevo</span>
                                 <span id="previewUnit">Unidad</span>

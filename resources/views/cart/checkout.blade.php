@@ -25,19 +25,19 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
                             <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Nombre completo</label>
-                            <input id="name" name="name" type="text" value="{{ old('name', auth()->user()->name) }}" autocomplete="name" required class="w-full rounded-xl border-gray-200 focus:border-[#1d3557] focus:ring-[#1d3557]">
+                            <input id="name" name="name" type="text" value="{{ old('name', auth()->user()->name) }}" autocomplete="name" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                         </div>
                         <div>
                             <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Correo electrónico</label>
-                            <input id="email" name="email" type="email" value="{{ old('email', auth()->user()->email) }}" autocomplete="email" required class="w-full rounded-xl border-gray-200 focus:border-[#1d3557] focus:ring-[#1d3557]">
+                            <input id="email" name="email" type="email" value="{{ old('email', auth()->user()->email) }}" autocomplete="email" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                         </div>
                         <div>
                             <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">Teléfono</label>
-                            <input id="phone" name="phone" type="tel" value="{{ old('phone', auth()->user()->phone) }}" autocomplete="tel" required class="w-full rounded-xl border-gray-200 focus:border-[#1d3557] focus:ring-[#1d3557]">
+                            <input id="phone" name="phone" type="tel" value="{{ old('phone', auth()->user()->phone) }}" autocomplete="tel" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                         </div>
                         <div>
                             <label for="address" class="block text-sm font-semibold text-gray-700 mb-2">Dirección de entrega</label>
-                            <input id="address" name="address" type="text" value="{{ old('address') }}" autocomplete="street-address" required class="w-full rounded-xl border-gray-200 focus:border-[#1d3557] focus:ring-[#1d3557]">
+                            <input id="address" name="address" type="text" value="{{ old('address') }}" autocomplete="street-address" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                         </div>
                     </div>
                 </fieldset>
@@ -47,22 +47,22 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div class="sm:col-span-2">
                             <label for="card-name" class="block text-sm font-semibold text-gray-700 mb-2">Nombre en la tarjeta</label>
-                            <input id="card-name" name="card_name" type="text" autocomplete="cc-name" required class="w-full rounded-xl border-gray-200 focus:border-[#1d3557] focus:ring-[#1d3557]">
+                            <input id="card-name" name="card_name" type="text" autocomplete="cc-name" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                         </div>
                         <div class="sm:col-span-2">
                             <label for="card-number" class="block text-sm font-semibold text-gray-700 mb-2">Número de tarjeta</label>
                             <div class="relative">
-                                <input id="card-number" name="card_number" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" required class="w-full rounded-xl border-gray-200 pr-12 focus:border-[#1d3557] focus:ring-[#1d3557]">
+                                <input id="card-number" name="card_number" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" required class="w-full pl-4 pr-12 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                                 <i class="bi bi-credit-card absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                             </div>
                         </div>
                         <div>
                             <label for="expiration" class="block text-sm font-semibold text-gray-700 mb-2">Vencimiento</label>
-                            <input id="expiration" name="expiration" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" required class="w-full rounded-xl border-gray-200 focus:border-[#1d3557] focus:ring-[#1d3557]">
+                            <input id="expiration" name="expiration" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                         </div>
                         <div>
                             <label for="cvv" class="block text-sm font-semibold text-gray-700 mb-2">CVV</label>
-                            <input id="cvv" name="cvv" type="password" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="123" required class="w-full rounded-xl border-gray-200 focus:border-[#1d3557] focus:ring-[#1d3557]">
+                            <input id="cvv" name="cvv" type="password" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="123" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 outline-none focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]">
                         </div>
                     </div>
                 </fieldset>
@@ -75,7 +75,7 @@
                         <div class="flex items-center gap-3">
                             <div class="w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
                                 @if($product->images->isNotEmpty())
-                                    <img src="{{ asset('storage/' . $product->images->first()->rute) }}" alt="{{ $product->title }}" class="w-full h-full object-cover">
+                                    <img src="{{ $product->images->first()->url }}" alt="{{ $product->title }}" class="w-full h-full object-cover">
                                 @else
                                     <i class="bi bi-image text-gray-300"></i>
                                 @endif
