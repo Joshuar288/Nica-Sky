@@ -1,102 +1,243 @@
+# NicaSky
 
-# NicaSky - README Técnico
+NicaSky es un marketplace web orientado a conectar emprendedores, compradores y proveedores en un entorno digital centralizado. La plataforma busca facilitar la publicación, promoción y compra de productos, apoyando especialmente a pequeñas y medianas empresas.
 
-## Descripción General
+> Proyecto desarrollado para HACKATHON Nicaragua Kronnox 2026.
 
-**NicaSky** es un marketplace web diseñado para conectar emprendedores, compradores y proveedores en un solo entorno digital. La plataforma busca facilitar la comercialización de productos y servicios, promoviendo el crecimiento de pequeñas y medianas empresas mediante una interfaz accesible, centralizada y eficiente.
+## Estado del proyecto
 
-El sistema permite a los usuarios registrarse como compradores o vendedores, publicar productos, explorar ofertas disponibles y establecer contacto directo para concretar transacciones.
+NicaSky se encuentra en desarrollo. Algunas funciones ya son utilizables y otras describen el flujo previsto para versiones futuras.
 
----
+### Funciones implementadas
 
-## Tecnologías Utilizadas
+- Registro, autenticación y administración del perfil.
+- Perfil público del usuario o tienda, con descripción y catálogo.
+- Roles diferenciados de comprador y vendedor.
+- Cambio controlado de comprador a vendedor.
+- Creación y exploración de publicaciones.
+- Imágenes de productos almacenadas en `storage` o servidas desde `public/images` para datos de prueba.
+- Filtros por precio, departamento, ciudad y categoría.
+- Búsqueda por producto, descripción, categoría, vendedor o tienda.
+- Conteo de visitas únicas por usuario y publicación.
+- Productos populares seleccionados entre los más visitados.
+- Carrito almacenado en la sesión.
+- Checkout y pago simulado.
+- Notificaciones al vendedor después de una compra simulada.
+- Planes Gratuito, Plan Plus, Plan Pro y Plan Nica.
+- Selección de productos recomendados según el límite del plan.
+
+### Funciones planificadas
+
+- Integración con una pasarela para pagos reales.
+- Retención temporal y liberación segura del pago.
+- Integración con servicios de paquetería como CargoTrans.
+- Registro de evidencia del envío y seguimiento del pedido.
+- Reembolsos cuando el vendedor no complete el envío dentro del plazo establecido.
+
+Actualmente los formularios de pago y compra de planes son simulaciones: no procesan cargos reales. Su propósito es permitir probar el flujo de carrito, compra, recomendados y notificaciones mientras se desarrolla la integración financiera definitiva.
+
+## Funcionamiento previsto
+
+### Roles
+
+El usuario podrá registrarse como comprador o vendedor. Ambos roles compartirán las herramientas generales, mientras que el vendedor podrá administrar la información de su negocio y sus publicaciones. También se contempla permitir el cambio de comprador a vendedor.
+
+### Publicaciones y perfiles públicos
+
+Los usuarios pueden crear publicaciones con título, descripción, categoría, precio, disponibilidad, estado e imagen. Cada publicación enlaza al perfil público de su creador, donde se muestra la información de la tienda, su descripción y el resto de sus productos.
+
+### Compra, pago y envío
+
+Permite añadir productos al carrito, realizar compras y confirmacion del mismo. Al confirmar, el vendedor recibe una notificación con los productos solicitados, los datos del comprador y la dirección indicada.
+
+El pago será procesado mediante una pasarela de pago y permanecerá retenido mientras el vendedor realiza el envío mediante un servicio como CargoTrans. El vendedor deberá presentar evidencia del despacho. Después de verificarla, la plataforma podrá liberar el dinero, sin embargo si el envío no se completa dentro del plazo establecido, se contempla devolverlo al comprador.
+
+### Productos recomendados y planes
+
+Los productos recomendados obtienen mayor visibilidad en la página de inicio. El cupo depende del plan del vendedor:
+
+Los usuarios del Plan Plus y Plan Pro pueden decidir al crear una publicación si desean utilizar uno de sus cupos para hacer que esa publicacion aperesca en recomendados. Donde Plan Plus tendra 5 cupos para 5 publicaciones, el Plan Pro tendra 15. El Plan Nica incluye automáticamente todas las publicaciones en la seccion de recomendados.
+
+## Tecnologías
 
 ### Backend
-- Laravel (Framework PHP)
-- PHP 8.3
+
+- PHP 8.3 o superior compatible.
+- Laravel 13.
+- Laravel Breeze.
+- Eloquent ORM y Blade.
 
 ### Frontend
-- Blade (motor de plantillas de Laravel)
-- HTML5
-- CSS3
-- JavaScript
-- Tailwind
 
-### Base de Datos
-- MySQL
+- Tailwind CSS.
+- Bootstrap Icons.
+- Vite 8.
+- JavaScript, HTML5 y CSS3.
 
-### Requerimientos previos
-- Composer 
-- Node.js y NPM
-- Git
+### Persistencia
 
----
+- MySQL como base de datos principal de desarrollo.
+- Sesiones, caché, trabajos y notificaciones almacenados en base de datos.
+- Disco público de Laravel para imágenes subidas por usuarios.
 
-## Instalación Básica
+## Requisitos previos
+
+- Extensiones PHP habituales de Laravel: Ctype, DOM, Fileinfo, Mbstring, OpenSSL, PDO, PDO MySQL, Tokenizer y XML.
+- Composer 2.
+- Node.js 20.19 o superior y npm.
+- MySQL 8 o MariaDB compatible.
+- Git.
+
+Para Windows se recomienda Laragon. También puede utilizarse XAMPP u otro entorno que proporcione PHP y MySQL compatibles.
+
+## Instalación
 
 ### 1. Clonar el repositorio
-Ejecuta en la terminal del sistema o en la terminal de Visual Studios Code
-git clone https://github.com/tu-usuario/NicaSky.git
 
-Luego accede al repositorio
-cd NicaSky
+```bash
+git clone https://github.com/Tu-Nombre/Nica-Sky.git
+cd Nica-Sky
+```
+
+Opcionalmente, abre el proyecto en Visual Studio Code:
+
+```bash
 code .
+```
 
-### 2. Instalar dependencias de PHP
-Dentro instala y actualiza las dependencias
-composer install o composer update
+### 2. Instalar dependencias
 
-### 3. Instalar dependencias de frontend
+```bash
+composer install
+npm install
+```
 
-npm install o npm update
+No es necesario ejecutar `composer update` ni `npm update` durante una instalación normal. Los archivos de bloqueo mantienen las versiones comprobadas por el proyecto.
 
-### 4. Configurar variables de entorno
+### 3. Crear el archivo de entorno
 
-Copiar el archivo `.env.example` a `.env`:
+Linux, macOS o Git Bash:
 
+```bash
 cp .env.example .env
+```
 
-Luego configurar los datos de conexión a la base de datos en el archivo `.env`.
+PowerShell:
 
-### 5. Generar clave de la aplicación
+```powershell
+Copy-Item .env.example .env
+```
 
+Configura al menos el nombre y la URL de la aplicación:
+
+```dotenv
+APP_NAME=NicaSky
+APP_URL=http://localhost:8000
+```
+
+### 4. Crear y configurar la base de datos
+
+Después configura `.env`:
+
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nicasky
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Ajusta usuario, contraseña y puerto según tu instalación. MySQL debe estar iniciado antes de continuar.
+
+### 5. Generar la clave
+
+```bash
 php artisan key:generate
+```
 
-### 6. Ejecutar migraciones
+### 6. Crear tablas, datos de prueba y/o Datos importantes (Categorias, ciudades, roles)
 
-php artisan migrate
+Para una instalación nueva:
 
----
+```bash
+php artisan migrate --seed
+```
+Si no existe la base de datos en mysql, la ejecucion de este comando le permitira crearlo con una confirmacion de su parte.
+Los seeders crean ciudades, categorías, usuarios administrativos y 100 productos de prueba con imágenes tomadas de `public/images`.
 
-## Ejecución del Sistema
+Si deseas reconstruir completamente una base de desarrollo existente:
 
-### 1. Compilar assets y activar vite
+### 7. Crear el enlace de almacenamiento
 
+```bash
+php artisan storage:link
+```
+
+Este enlace es necesario para mostrar las imágenes que los usuarios suban al crear publicaciones.
+
+### 8. Compilar los recursos
+
+Durante el desarrollo:
+
+```bash
 npm run dev
+```
 
-### 2. Levantar el servidor
+Para generar recursos optimizados:
 
+```bash
+npm run build
+```
+
+## Ejecución
+
+Usa dos terminales:
+
+```bash
+# Terminal 1
+npm run dev
+```
+
+```bash
+# Terminal 2
 php artisan serve
+```
 
-### 3. Acceder a la aplicación
+Abre:
 
-Abrir en el navegador:
-
+```text
 http://localhost:8000
+```
 
----
+Como alternativa, el proyecto incluye un comando que inicia servidor, Vite, cola y visor de logs:
 
-## Notas Adicionales
+```bash
+composer run dev
+```
 
-* Existen muchos servicios de para trabajar en entorno local web. Se recomienda utilizar XAMPP o LARAGON.
-* Asegurarse de que MySQL esté activo antes de ejecutar migraciones.
+## Usuarios de prueba
 
----
+Después de ejecutar los seeders:
 
+| Usuario | Correo | Contraseña |
+| --- | --- | --- |
+| Joshuar | `joshuar@admin.com` | `password123` |
+| Ulises | `ulises@admin.com` | `password123` |
 
-Proyecto desarrollado como parte de una solución para fomentar el emprendimiento digital impulsado por el festival tecnologico mas grande del pais. HACKATHON Nicaragua Kronnox 2026.
+Estas credenciales son únicamente para desarrollo. No deben utilizarse en producción.
 
----
+## Consideraciones importantes
 
+- Los pagos y compras de planes son simulados.
+- Nunca se almacena el CVV ni el número completo de tarjeta.
+- El carrito se conserva en la sesión, no en una tabla de órdenes.
+- Las notificaciones se almacenan en la tabla `notifications`.
+- Las visitas se contabilizan una sola vez por usuario y producto.
+- Las imágenes del seeder se sirven desde `public/images`.
+- Las imágenes subidas se guardan en `storage/app/public/products`.
+- La configuración predeterminada usa sesiones, caché y cola en base de datos; sus tablas se crean con las migraciones incluidas.
 
+## Licencia y contexto
 
+Proyecto desarrollado como una solución para fomentar el emprendimiento digital en el contexto de HACKATHON Nicaragua Kronnox 2026.
