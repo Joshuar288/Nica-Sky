@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['name', 'email', 'password'])]
@@ -26,7 +27,9 @@ class User extends Authenticatable
         'phone',
         'email',
         'name_bussines',
+        'description',
         'is_verified',
+        'plan',
         'password',
     ];
 
@@ -44,6 +47,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'is_verified' => 'boolean',
             'password' => 'hashed',
         ];
     }
@@ -67,5 +71,37 @@ class User extends Authenticatable
     public function qualifications(): HasMany
     {
         return $this->hasMany(Qualification::class);
+    }
+
+    public function viewedProducts(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_views')->withTimestamps();
+    }
+
+    public function recommendedProductsLimit(): ?int
+    {
+        return match ($this->plan) {
+            'pro_1' => 5,
+            'pro_2' => 15,
+            'pro_3' => null,
+            default => 0,
+        };
+    }
+
+    public function recommendedProductsCount(): int
+    {
+        return $this->products()->where('is_recommended', true)->count();
+    }
+
+    public function canSelectRecommendations(): bool
+    {
+        return in_array($this->plan, ['pro_1', 'pro_2'], true);
+    }
+
+    public function canRecommendAnotherProduct(): bool
+    {
+        $limit = $this->recommendedProductsLimit();
+
+        return is_null($limit) || $this->recommendedProductsCount() < $limit;
     }
 }

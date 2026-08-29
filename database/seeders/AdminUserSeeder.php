@@ -40,8 +40,9 @@ class AdminUserSeeder extends Seeder
                 'phone'         => $admin['phone'],
                 'email'         => $admin['email'],
                 'name_bussines' => $admin['name_bussines'],
-                'is_verified'   => true, // Adaptado a string según tu migración $table->string('is_verified')
-                'password'      => Hash::make('password123'), // Contraseña por defecto
+                'is_verified'   => true,
+                'plan'          => 'pro_3',
+                'password'      => Hash::make('password123'),
             ]);
         }
     }

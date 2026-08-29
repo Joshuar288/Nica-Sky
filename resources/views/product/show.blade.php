@@ -12,7 +12,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-3xl border border-gray-100 p-6 lg:p-8 shadow-sm">
             <div class="rounded-2xl overflow-hidden bg-gray-50 min-h-[320px] lg:min-h-[480px] flex items-center justify-center">
                 @if($product->images->isNotEmpty())
-                    <img src="{{ asset('storage/' . $product->images->first()->rute) }}"
+                    <img src="{{ $product->images->first()->url }}"
                          alt="{{ $product->title }}"
                          class="w-full h-full max-h-[560px] object-cover">
                 @else
@@ -71,7 +71,7 @@
                              alt="{{ $product->user->name }}"
                              class="w-11 h-11 rounded-full object-cover">
                         <div class="min-w-0">
-                            <p class="font-semibold text-gray-900 truncate">{{ $product->user->name }}</p>
+                            <a href="{{ route('users.show', $product->user) }}" class="block font-semibold text-gray-900 truncate hover:text-[#1d3557] hover:underline">{{ $product->user->name }}</a>
                             @if($product->user->city)
                                 <p class="text-xs text-gray-400">
                                     <i class="bi bi-geo-alt"></i>
@@ -119,7 +119,7 @@
                                class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative"
                                aria-label="Ver detalles de {{ $relatedProduct->title }}">
                                 @if($relatedProduct->images->isNotEmpty())
-                                    <img src="{{ asset('storage/' . $relatedProduct->images->first()->rute) }}"
+                                    <img src="{{ $relatedProduct->images->first()->url }}"
                                          alt="{{ $relatedProduct->title }}"
                                          class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                                 @else
@@ -143,7 +143,7 @@
                             <p class="text-xs text-gray-400 line-clamp-2 mb-4">{{ $relatedProduct->description }}</p>
 
                             <div class="mt-auto flex items-center justify-between pt-3 border-t border-gray-100 text-[11px] text-gray-400">
-                                <span class="truncate">{{ $relatedProduct->user->name }}</span>
+                                <a href="{{ route('users.show', $relatedProduct->user) }}" class="truncate hover:text-[#1d3557] hover:underline">{{ $relatedProduct->user->name }}</a>
                                 <span>{{ $relatedProduct->created_at->diffForHumans() }}</span>
                             </div>
                         </article>

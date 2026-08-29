@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MyProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PremiumController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,6 +17,14 @@ Route::get('/', function () {
 Route::get('/home', [HomeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('home');
+
+Route::get('/popular-products', [HomeController::class, 'popular'])
+    ->middleware(['auth', 'verified'])
+    ->name('product.popular');
+
+Route::get('/recommended-products', [HomeController::class, 'recommended'])
+    ->middleware(['auth', 'verified'])
+    ->name('product.recommended');
 
 Route::middleware('auth')->group(function () {
     Route::get('/myprofile', [MyProfileController::class, 'show'])->name('myprofile.show');
@@ -34,6 +44,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/users/{user}', [UserProfileController::class, 'show'])->name('users.show');
+    Route::get('/premium', [PremiumController::class, 'show'])->name('premium.show');
+    Route::post('/premium/purchase', [PremiumController::class, 'purchase'])->name('premium.purchase');
 });
 
 Route::get('/dashboard', function () {

@@ -20,6 +20,13 @@ class Image extends Model
         'is_first' => 'boolean',
     ];
 
+    public function getUrlAttribute(): string
+    {
+        return str_starts_with($this->rute, 'images/')
+            ? asset($this->rute)
+            : asset('storage/'.$this->rute);
+    }
+
     /**
      * Get the product that owns the Image
      */
