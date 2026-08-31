@@ -78,6 +78,12 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-2">
             @forelse($user->products as $product)
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative group hover:shadow-md transition">
+                    <a href="{{ route('product.edit', $product) }}"
+                       class="absolute top-6 right-6 z-20 inline-flex h-8 items-center gap-1.5 rounded-full bg-white px-3 text-[11px] font-semibold text-[#0b132a] shadow-md transition hover:bg-[#0b132a] hover:text-white"
+                       aria-label="Modificar {{ $product->title }}">
+                        <i class="bi bi-pencil-fill text-[10px]"></i>
+                        <span>Modificar</span>
+                    </a>
                     <!-- Boton Carrito -->
                     <button class="absolute top-6 left-6 z-10 w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition">
                         <i class="bi bi-cart text-xs"></i>
@@ -102,6 +108,20 @@
 
                     <!-- Informacion del Producto -->
                     <div>
+                        <div class="mb-3">
+                            @if($product->is_recommended)
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold text-amber-700 ring-1 ring-inset ring-amber-200">
+                                    <i class="bi bi-star-fill"></i>
+                                    Visibilidad prioritaria
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-gray-50 px-2.5 py-1 text-[10px] font-semibold text-gray-500 ring-1 ring-inset ring-gray-200">
+                                    <i class="bi bi-eye"></i>
+                                    Visibilidad normal
+                                </span>
+                            @endif
+                        </div>
+
                         <div class="flex justify-between items-center mb-1">
                             <h3 class="font-bold text-gray-900 text-sm truncate" title="{{ $product->title }}">{{ $product->title }}</h3>
                             <span class="font-bold text-[#1d3557] text-sm">C$ {{ number_format($product->price, 2) }}</span>
