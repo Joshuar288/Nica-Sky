@@ -56,7 +56,7 @@
                         <span class="absolute bottom-2 right-2 px-2 py-0.5 bg-white/90 rounded-md text-[10px] font-bold text-gray-700">{{ $product->state }}</span>
                     </a>
                     <div class="flex items-start justify-between gap-3 mb-2">
-                        <a href="{{ route('product.show', $product) }}" class="font-bold text-gray-900 text-sm truncate hover:text-[#1d3557]">{{ $product->title }}</a>
+                        <a href="{{ route('product.show', $product) }}" class="min-w-0 flex-1 font-bold text-gray-900 text-sm truncate hover:text-[#1d3557]" title="{{ $product->title }}">{{ $product->title }}</a>
                         <span class="shrink-0 font-bold text-[#1d3557] text-sm">C$ {{ number_format($product->price, 2) }}</span>
                     </div>
                     <p class="text-xs text-gray-400 line-clamp-2">{{ $product->description }}</p>

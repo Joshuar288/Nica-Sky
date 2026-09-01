@@ -56,16 +56,11 @@
                     @elseif($plan['rank'] < $currentRank || $plan['key'] === 'free')
                         <div class="w-full py-3 rounded-full bg-gray-50 text-center text-xs font-semibold text-gray-300">No disponible</div>
                     @else
-                        <form action="{{ route('premium.purchase') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="plan" value="{{ $plan['key'] }}">
-                            <button type="submit" class="w-full py-3 rounded-full bg-[#0b132a] hover:bg-[#162038] text-white text-xs font-semibold transition">Elegir {{ $plan['name'] }}</button>
-                        </form>
+                        <a href="{{ route('premium.checkout', $plan['key']) }}" class="block w-full py-3 rounded-full bg-[#0b132a] hover:bg-[#162038] text-white text-center text-xs font-semibold transition">Elegir {{ $plan['name'] }}</a>
                     @endif
                 </article>
             @endforeach
         </div>
 
-        <p class="text-xs text-center text-gray-400 mt-6">Esta funcionalidad simula la compra; no se realiza ningún cobro real.</p>
     </section>
 </x-sidebar-layout>

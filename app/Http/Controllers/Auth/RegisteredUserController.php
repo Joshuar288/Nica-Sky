@@ -53,6 +53,7 @@ class RegisteredUserController extends Controller
             'city_id'       => $request->city_id,
             'name_bussines' => $request->name_bussines,
             'is_verified'   => false,
+            'role'          => 'user',
             'password'      => Hash::make($request->password),
         ]);
 

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'name_bussines',
         'description',
         'is_verified',
+        'role',
         'plan',
         'password',
     ];
@@ -104,4 +105,8 @@ class User extends Authenticatable
 
         return is_null($limit) || $this->recommendedProductsCount() < $limit;
     }
+
+    public function isAdmin(): bool { return $this->role === 'admin'; }
+    public function isAuditor(): bool { return $this->role === 'auditor'; }
+    public function canAudit(): bool { return in_array($this->role, ['admin', 'auditor'], true); }
 }

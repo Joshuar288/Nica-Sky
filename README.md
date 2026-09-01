@@ -21,8 +21,8 @@ NicaSky se encuentra en desarrollo. Algunas funciones ya son utilizables y otras
 - Conteo de visitas únicas por usuario y publicación.
 - Productos populares seleccionados entre los más visitados.
 - Carrito almacenado en la sesión.
-- Checkout y pago simulado.
-- Notificaciones al vendedor después de una compra simulada.
+- Checkout y confirmación de pago.
+- Notificaciones al vendedor después de una compra.
 - Planes Gratuito, Plan Plus, Plan Pro y Plan Nica.
 - Selección de productos recomendados según el límite del plan.
 
@@ -33,8 +33,6 @@ NicaSky se encuentra en desarrollo. Algunas funciones ya son utilizables y otras
 - Integración con servicios de paquetería como CargoTrans.
 - Registro de evidencia del envío y seguimiento del pedido.
 - Reembolsos cuando el vendedor no complete el envío dentro del plazo establecido.
-
-Actualmente los formularios de pago y compra de planes son simulaciones: no procesan cargos reales. Su propósito es permitir probar el flujo de carrito, compra, recomendados y notificaciones mientras se desarrolla la integración financiera definitiva.
 
 ## Funcionamiento previsto
 
@@ -229,7 +227,6 @@ Estas credenciales son únicamente para desarrollo. No deben utilizarse en produ
 
 ## Consideraciones importantes
 
-- Los pagos y compras de planes son simulados.
 - Nunca se almacena el CVV ni el número completo de tarjeta.
 - El carrito se conserva en la sesión, no en una tabla de órdenes.
 - Las notificaciones se almacenan en la tabla `notifications`.

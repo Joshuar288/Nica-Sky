@@ -10,6 +10,7 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -204,5 +205,91 @@ class ProductController extends Controller
         }
 
         return redirect()->route('myprofile.show')->with('success', '¡Publicación creada exitosamente!');
+    }
+
+    public function edit(Product $product)
+    {
+        abort_unless($product->user_id === auth()->id(), 403);
+
+        $categories = Category::orderBy('type_category')->orderBy('name')->get();
+        $user = auth()->user();
+        $recommendedCount = $user->recommendedProductsCount();
+        $recommendedLimit = $user->recommendedProductsLimit();
+        $product->load('images');
+
+        return view('product.edit', compact('product', 'categories', 'user', 'recommendedCount', 'recommendedLimit'));
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        abort_unless($product->user_id === auth()->id(), 403);
+
+        $validated = $request->validate([
+            'category_id' => ['required', 'exists:categories,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:1000'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'unit' => ['required', 'string', 'max:50'],
+            'stock' => ['nullable', 'integer', 'min:0'],
+            'state' => ['required', 'string', 'in:Nuevo,Usado,Reacondicionado'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'is_recommended' => ['nullable', 'boolean'],
+        ]);
+
+        $newImagePath = $request->hasFile('image')
+            ? $request->file('image')->store('products', 'public')
+            : null;
+        $oldImagePath = null;
+
+        try {
+            DB::transaction(function () use ($request, $validated, $product, $newImagePath, &$oldImagePath) {
+                $user = User::query()->lockForUpdate()->findOrFail(auth()->id());
+                $wantsRecommendation = $request->boolean('is_recommended');
+                $isRecommended = $user->plan === 'pro_3'
+                    ? $wantsRecommendation
+                    : ($user->canSelectRecommendations() && $wantsRecommendation);
+
+                if ($isRecommended && ! $product->is_recommended && ! $user->canRecommendAnotherProduct()) {
+                    throw ValidationException::withMessages([
+                        'is_recommended' => "Tu plan ya alcanzó el límite de {$user->recommendedProductsLimit()} productos recomendados.",
+                    ]);
+                }
+
+                $product->update([
+                    'category_id' => $validated['category_id'],
+                    'title' => $validated['title'],
+                    'description' => $validated['description'],
+                    'price' => $validated['price'],
+                    'unit' => $validated['unit'],
+                    'stock' => $validated['stock'] ?? null,
+                    'state' => $validated['state'],
+                    'is_recommended' => $isRecommended,
+                ]);
+
+                if ($newImagePath) {
+                    $image = $product->images()->where('is_first', true)->first()
+                        ?? $product->images()->first();
+
+                    if ($image) {
+                        $oldImagePath = $image->rute;
+                        $image->update(['rute' => $newImagePath, 'is_first' => true]);
+                    } else {
+                        $product->images()->create(['rute' => $newImagePath, 'is_first' => true]);
+                    }
+                }
+            });
+        } catch (\Throwable $exception) {
+            if ($newImagePath) {
+                Storage::disk('public')->delete($newImagePath);
+            }
+
+            throw $exception;
+        }
+
+        if ($newImagePath && $oldImagePath && ! str_starts_with($oldImagePath, 'images/')) {
+            Storage::disk('public')->delete($oldImagePath);
+        }
+
+        return redirect()->route('myprofile.show')->with('success', '¡Publicación actualizada exitosamente!');
     }
 }

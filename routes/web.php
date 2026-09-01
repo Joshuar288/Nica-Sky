@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\ShipmentVerificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,6 +34,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
     Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+    Route::get('/product/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
+    Route::patch('/product/{product}', [ProductController::class, 'update'])->name('product.update');
     Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
     Route::post('/product', [ProductController::class, 'store'])->name('product.store');
 
@@ -44,9 +47,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{notification}/shipment', [ShipmentVerificationController::class, 'store'])->name('shipments.store');
+    Route::get('/shipments/{shipmentVerification}/evidence', [ShipmentVerificationController::class, 'evidence'])->name('shipments.evidence');
     Route::get('/users/{user}', [UserProfileController::class, 'show'])->name('users.show');
     Route::get('/premium', [PremiumController::class, 'show'])->name('premium.show');
+    Route::get('/premium/checkout/{plan}', [PremiumController::class, 'checkout'])->name('premium.checkout');
     Route::post('/premium/purchase', [PremiumController::class, 'purchase'])->name('premium.purchase');
+});
+
+Route::middleware(['auth', 'role:auditor,admin'])->prefix('auditor')->group(function () {
+    Route::get('/shipments', [ShipmentVerificationController::class, 'index'])->name('auditor.shipments.index');
+    Route::patch('/shipments/{shipmentVerification}', [ShipmentVerificationController::class, 'review'])->name('auditor.shipments.review');
 });
 
 Route::get('/dashboard', function () {
