@@ -39,6 +39,12 @@
                     <i class="bi bi-gem text-base"></i>
                     <span>Plan Premium</span>
                 </a>
+                @if(auth()->user()->canAudit())
+                    <a href="{{ route('auditor.shipments.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('auditor.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
+                        <i class="bi bi-shield-check text-base"></i>
+                        <span>Verificar envíos</span>
+                    </a>
+                @endif
             </nav>
         </div>
 

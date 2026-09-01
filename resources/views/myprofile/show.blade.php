@@ -123,8 +123,8 @@
                         </div>
 
                         <div class="flex justify-between items-center mb-1">
-                            <h3 class="font-bold text-gray-900 text-sm truncate" title="{{ $product->title }}">{{ $product->title }}</h3>
-                            <span class="font-bold text-[#1d3557] text-sm">C$ {{ number_format($product->price, 2) }}</span>
+                            <h3 class="min-w-0 flex-1 font-bold text-gray-900 text-sm truncate" title="{{ $product->title }}">{{ $product->title }}</h3>
+                            <span class="shrink-0 font-bold text-[#1d3557] text-sm">C$ {{ number_format($product->price, 2) }}</span>
                         </div>
 
                         <p class="text-xs text-gray-400 line-clamp-2 mb-4">{{ $product->description }}</p>
