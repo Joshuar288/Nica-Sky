@@ -2,7 +2,7 @@
 
 ## Proyecto: NicaSky
 
-**Fecha:** 3 de septiembre de 2026  
+**Fecha:** 3 de septiembre de 2026
 **Tecnología principal:** Laravel 13 y PHP 8.3
 
 ---
