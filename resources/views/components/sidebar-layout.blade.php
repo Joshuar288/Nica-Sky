@@ -31,14 +31,16 @@
                     <i class="bi bi-grid text-base"></i>
                     <span>Productos</span>
                 </a>
-                <a href="{{route('myprofile.show')}}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-[#162038] font-medium text-sm transition{{ request()->routeIs('myprofile.show') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}" >
-                    <i class="bi bi-bar-chart text-base"></i>
-                    <span>Mi Perfil</span>
-                </a>
-                <a href="{{ route('premium.show') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('premium.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
-                    <i class="bi bi-gem text-base"></i>
-                    <span>Plan Premium</span>
-                </a>
+                @if(!auth()->user()->isAuditor())
+                    <a href="{{route('myprofile.show')}}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-[#162038] font-medium text-sm transition{{ request()->routeIs('myprofile.show') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}" >
+                        <i class="bi bi-bar-chart text-base"></i>
+                        <span>Mi Perfil</span>
+                    </a>
+                    <a href="{{ route('premium.show') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('premium.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
+                        <i class="bi bi-gem text-base"></i>
+                        <span>Plan Premium</span>
+                    </a>
+                @endif
                 @if(auth()->user()->canAudit())
                     <a href="{{ route('auditor.shipments.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('auditor.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
                         <i class="bi bi-shield-check text-base"></i>
@@ -94,15 +96,17 @@
                     </span>
                 @endif
             </a>
-            <a href="{{ route('cart.index') }}" class="relative w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm" aria-label="Ver carrito">
-                <i class="bi bi-bag text-lg"></i>
-                @php($cartCount = array_sum(session('cart', [])))
-                @if($cartCount > 0)
-                    <span class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[#1d3557] text-white text-[10px] font-bold flex items-center justify-center">
-                        {{ $cartCount > 99 ? '99+' : $cartCount }}
-                    </span>
-                @endif
-            </a>
+            @if(!auth()->user()->isAuditor())
+                <a href="{{ route('cart.index') }}" class="relative w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm" aria-label="Ver carrito">
+                    <i class="bi bi-bag text-lg"></i>
+                    @php($cartCount = array_sum(session('cart', [])))
+                    @if($cartCount > 0)
+                        <span class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[#1d3557] text-white text-[10px] font-bold flex items-center justify-center">
+                            {{ $cartCount > 99 ? '99+' : $cartCount }}
+                        </span>
+                    @endif
+                </a>
+            @endif
             <a href="{{ route('profile.edit') }}" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm" aria-label="Editar perfil">
                 <i class="bi bi-person-circle text-lg"></i>
             </a>

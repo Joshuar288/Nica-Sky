@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,9 @@ class AuditorUserSeeder extends Seeder
                 'city_id' => $city?->id,
                 'name' => 'Auditor NicaSky',
                 'phone' => '86666666',
-                'role' => 'auditor',
+                'role' => UserRole::Auditor,
                 'is_verified' => true,
+                'email_verified_at' => now(),
                 'password' => Hash::make('password123'),
             ]
         );

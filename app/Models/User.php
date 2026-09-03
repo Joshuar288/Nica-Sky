@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -49,6 +49,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'is_verified' => 'boolean',
+            'role' => UserRole::class,
             'password' => 'hashed',
         ];
     }
@@ -106,7 +107,23 @@ class User extends Authenticatable
         return is_null($limit) || $this->recommendedProductsCount() < $limit;
     }
 
-    public function isAdmin(): bool { return $this->role === 'admin'; }
-    public function isAuditor(): bool { return $this->role === 'auditor'; }
-    public function canAudit(): bool { return in_array($this->role, ['admin', 'auditor'], true); }
+    public function hasRole(UserRole ...$roles): bool
+    {
+        return in_array($this->role, $roles, true);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole(UserRole::Admin);
+    }
+
+    public function isAuditor(): bool
+    {
+        return $this->hasRole(UserRole::Auditor);
+    }
+
+    public function canAudit(): bool
+    {
+        return $this->hasRole(UserRole::Admin, UserRole::Auditor);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Models\ShipmentVerification;
 use App\Models\User;
 use App\Notifications\ProductPurchasedNotification;
@@ -10,8 +11,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ShipmentVerificationController extends Controller
 {
@@ -38,7 +39,7 @@ class ShipmentVerificationController extends Controller
             'evidence_path' => $request->file('evidence')->store('shipment-evidence', 'public'),
         ]);
 
-        $reviewers = User::whereIn('role', ['auditor', 'admin'])->get();
+        $reviewers = User::whereIn('role', [UserRole::Auditor->value, UserRole::Admin->value])->get();
         Notification::send($reviewers, new ShipmentVerificationNotification([
             'kind' => 'shipment_submitted',
             'title' => 'Nueva evidencia de envío',
@@ -60,6 +61,7 @@ class ShipmentVerificationController extends Controller
     public function index(): View
     {
         $verifications = ShipmentVerification::with(['seller', 'auditor'])->latest()->paginate(15);
+
         return view('auditor.shipments.index', compact('verifications'));
     }
 
