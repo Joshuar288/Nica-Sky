@@ -38,8 +38,6 @@ NicaSky se encuentra en desarrollo. Algunas funciones ya son utilizables y otras
 
 ## Roles y permisos
 
-NicaSky utiliza control de acceso basado en roles. El rol se representa mediante el enum `App\Enums\UserRole` y las rutas sensibles están protegidas por el middleware `role`; ocultar botones en la interfaz no sustituye esta validación del servidor.
-
 | Función | Administrador | Usuario | Auditor |
 | --- | :---: | :---: | :---: |
 | Explorar productos y perfiles públicos | Sí | Sí | Sí |
@@ -246,14 +244,13 @@ Después de ejecutar los seeders:
 | --- | --- | --- |
 | Joshuar | `joshuar@admin.com` | `password123` |
 | Ulises | `ulises@admin.com` | `password123` |
+| Auditor | `auditor@nicasky.com` | `password123` |
 
 Estas credenciales son únicamente para desarrollo. No deben utilizarse en producción.
 
 ## Consideraciones importantes
 
 - Nunca se almacena el CVV ni el número completo de tarjeta.
-- El carrito se conserva en la sesión, no en una tabla de órdenes.
-- Las notificaciones se almacenan en la tabla `notifications`.
 - Las visitas se contabilizan una sola vez por usuario y producto.
 - Las imágenes del seeder se sirven desde `public/images`.
 - Las imágenes subidas se guardan en `storage/app/public/products`.
