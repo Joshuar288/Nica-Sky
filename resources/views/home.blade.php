@@ -24,8 +24,8 @@
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
                         @if($product->images->isNotEmpty())
                             <img src="{{ $product->images->first()->url }}"
-                                 alt="{{ $product->title }}"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                alt="{{ $product->title }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         @else
                             <i class="bi bi-image text-3xl text-gray-300"></i>
                         @endif
@@ -86,8 +86,8 @@
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
                         @if($product->images->isNotEmpty())
                             <img src="{{ $product->images->first()->url }}"
-                                 alt="{{ $product->title }}"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                alt="{{ $product->title }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         @else
                             <i class="bi bi-image text-3xl text-gray-300"></i>
                         @endif

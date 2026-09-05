@@ -47,7 +47,10 @@
             <!-- Columna Derecha: Boton Editar -->
             <div class="flex-1 max-w-2xl space-y-4">
                 <div class="flex justify-end">
-                    <a href="{{ route('profile.edit') }}" class="px-5 py-2 bg-[#0b132a] hover:bg-[#162038] text-white rounded-full text-xs font-semibold flex items-center gap-2 transition shadow-sm">
+                    <a href="{{ route('profile.edit') }}"
+                    class="px-5 py-2 bg-[#0b132a] hover:bg-[#162038]
+                    text-white rounded-full text-xs font-semibold
+                    flex items-center gap-2 transition shadow-sm">
                         <i class="bi bi-pencil-fill text-[10px]"></i>
                         <span>Editar Perfil</span>
                     </a>
@@ -79,8 +82,8 @@
             @forelse($user->products as $product)
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative group hover:shadow-md transition">
                     <a href="{{ route('product.edit', $product) }}"
-                       class="absolute top-6 right-6 z-20 inline-flex h-8 items-center gap-1.5 rounded-full bg-white px-3 text-[11px] font-semibold text-[#0b132a] shadow-md transition hover:bg-[#0b132a] hover:text-white"
-                       aria-label="Modificar {{ $product->title }}">
+                    class="absolute top-6 right-6 z-20 inline-flex h-8 items-center gap-1.5 rounded-full bg-white px-3 text-[11px] font-semibold text-[#0b132a] shadow-md transition hover:bg-[#0b132a] hover:text-white"
+                    aria-label="Modificar {{ $product->title }}">
                         <i class="bi bi-pencil-fill text-[10px]"></i>
                         <span>Modificar</span>
                     </a>
@@ -93,8 +96,8 @@
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
                         @if($product->images->isNotEmpty())
                             <img src="{{ $product->images->first()->url }}"
-                                 alt="{{ $product->title }}"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                alt="{{ $product->title }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         @else
                             <i class="bi bi-image text-3xl text-gray-300"></i>
                         @endif
