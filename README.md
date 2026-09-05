@@ -36,7 +36,31 @@ NicaSky se encuentra en desarrollo. Algunas funciones ya son utilizables y otras
 
 ## Funcionamiento previsto
 
-### Roles
+## Roles y permisos
+
+NicaSky utiliza control de acceso basado en roles. El rol se representa mediante el enum `App\Enums\UserRole` y las rutas sensibles están protegidas por el middleware `role`; ocultar botones en la interfaz no sustituye esta validación del servidor.
+
+| Función | Administrador | Usuario | Auditor |
+| --- | :---: | :---: | :---: |
+| Explorar productos y perfiles públicos | Sí | Sí | Sí |
+| Administrar su perfil | Sí | Sí | Sí |
+| Crear y editar publicaciones propias | Sí | Sí | No |
+| Utilizar carrito y confirmar compras | Sí | Sí | No |
+| Comprar planes y destacar publicaciones | Sí | Sí | No |
+| Adjuntar evidencia de un envío propio | Sí | Sí | No |
+| Revisar evidencias de envío | Sí | No | Sí |
+| Aprobar o rechazar una evidencia | Sí | No | Sí |
+| Acceder a toda la administración | Sí | No | No |
+
+### Responsabilidades
+
+- **Administrador:** posee acceso general a la plataforma y puede respaldar las tareas de auditoría.
+- **Usuario:** utiliza el marketplace como comprador o vendedor, administra sus publicaciones y presenta evidencias de sus envíos.
+- **Auditor:** supervisa los comprobantes de envío y registra una decisión. No puede comprar, publicar productos ni contratar planes.
+
+El sistema aplica el principio de mínimo privilegio: cada cuenta recibe únicamente los permisos necesarios. Los usuarios nuevos reciben el rol `user`; los roles `admin` y `auditor` se asignan mediante seeders o por administración controlada de la base de datos.
+
+### Perfiles comerciales planificados
 
 El usuario podrá registrarse como comprador o vendedor. Ambos roles compartirán las herramientas generales, mientras que el vendedor podrá administrar la información de su negocio y sus publicaciones. También se contempla permitir el cambio de comprador a vendedor.
 
