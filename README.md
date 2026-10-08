@@ -25,6 +25,7 @@ NicaSky se encuentra en desarrollo. Algunas funciones ya son utilizables y otras
 - Notificaciones al vendedor después de una compra.
 - Planes Gratuito, Plan Plus, Plan Pro y Plan Nica.
 - Selección de productos recomendados según el límite del plan.
+- Dashboard personalizado para el auditor y Administrador
 
 ### Funciones planificadas
 
@@ -256,6 +257,5 @@ Estas credenciales son únicamente para desarrollo. No deben utilizarse en produ
 - Las imágenes subidas se guardan en `storage/app/public/products`.
 - La configuración predeterminada usa sesiones, caché y cola en base de datos; sus tablas se crean con las migraciones incluidas.
 
-## Licencia y contexto
 
-Proyecto desarrollado como una solución para fomentar el emprendimiento digital en el contexto de HACKATHON Nicaragua Kronnox 2026.
+> Proyecto desarrollado como una solución para fomentar el emprendimiento digital en el contexto de HACKATHON Nicaragua Kronnox 2026.
