@@ -15,24 +15,45 @@
         <div>
             <!-- Logo -->
             <div class="flex justify-center -mt-5 mb-2">
-                <a href="{{ route('home') }}" class="flex items-center justify-center" aria-label="Ir al inicio">
+                <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isAuditor() ? route('auditor.dashboard') : route('home')) }}" class="flex items-center justify-center" aria-label="Ir al inicio">
                     <img src="{{ asset('images/Imagotipo_NicaSky.svg') }}" alt="NicaSky Logo" class="block w-44 h-auto object-contain">
                 </a>
             </div>
 
             <!-- Menú de Navegación -->
             <nav class="space-y-1.5">
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('admin.dashboard') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
+                        <i class="bi bi-speedometer2 text-base"></i>
+                        <span>Panel admin</span>
+                    </a>
+                    <a href="{{ route('admin.products.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('admin.products.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
+                        <i class="bi bi-clipboard-check text-base"></i>
+                        <span>Revisar publicaciones</span>
+                    </a>
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('admin.users.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
+                        <i class="bi bi-people text-base"></i>
+                        <span>Gestionar usuarios</span>
+                    </a>
+                @elseif(auth()->user()->isAuditor())
+                    <a href="{{ route('auditor.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('auditor.dashboard') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
+                        <i class="bi bi-speedometer2 text-base"></i>
+                        <span>Panel auditor</span>
+                    </a>
+                @endif
+                @if(!auth()->user()->isAuditor())
                 <a href="{{ route('home') }}"
                    class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('home') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
                     <i class="bi bi-house-door text-base"></i>
                     <span>Inicio</span>
                 </a>
-                <a href="{{ route('product.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-[#162038] font-medium text-sm transition {{ request()->routeIs('product.index') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
+                <a href="{{ route('product.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-[#162038] font-medium text-sm transition {{ request()->routeIs('product.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
                     <i class="bi bi-grid text-base"></i>
                     <span>Productos</span>
                 </a>
+                @endif
                 @if(!auth()->user()->isAuditor())
-                    <a href="{{route('myprofile.show')}}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-[#162038] font-medium text-sm transition{{ request()->routeIs('myprofile.show') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}" >
+                    <a href="{{ route('myprofile.show') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-[#162038] font-medium text-sm transition {{ request()->routeIs('myprofile.*', 'profile.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
                         <i class="bi bi-bar-chart text-base"></i>
                         <span>Mi Perfil</span>
                     </a>
@@ -42,7 +63,7 @@
                     </a>
                 @endif
                 @if(auth()->user()->canAudit())
-                    <a href="{{ route('auditor.shipments.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('auditor.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
+                    <a href="{{ route('auditor.shipments.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition {{ request()->routeIs('auditor.shipments.*') ? 'bg-[#1e2942] text-white' : 'text-gray-400 hover:text-white hover:bg-[#162038]' }}">
                         <i class="bi bi-shield-check text-base"></i>
                         <span>Verificar envíos</span>
                     </a>
@@ -107,9 +128,11 @@
                     @endif
                 </a>
             @endif
-            <a href="{{ route('profile.edit') }}" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm" aria-label="Editar perfil">
-                <i class="bi bi-person-circle text-lg"></i>
-            </a>
+            @if(!auth()->user()->isAuditor())
+                <a href="{{ route('profile.edit') }}" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 shadow-sm" aria-label="Editar perfil">
+                    <i class="bi bi-person-circle text-lg"></i>
+                </a>
+            @endif
         </header>
 
         <!-- Aquí se renderizará el contenido propio de cada página -->

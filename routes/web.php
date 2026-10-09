@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyProfileController;
 use App\Http\Controllers\NotificationController;
@@ -16,25 +18,27 @@ Route::get('/', function () {
 })->name('landing');
 
 Route::get('/home', [HomeController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'role:user,admin'])
     ->name('home');
 
 Route::get('/popular-products', [HomeController::class, 'popular'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'role:user,admin'])
     ->name('product.popular');
 
 Route::get('/recommended-products', [HomeController::class, 'recommended'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'role:user,admin'])
     ->name('product.recommended');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/product', [ProductController::class, 'index'])->name('product.index');
-    Route::get('/product/{product}', [ProductController::class, 'show'])->whereNumber('product')->name('product.show');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('/shipments/{shipmentVerification}/evidence', [ShipmentVerificationController::class, 'evidence'])->name('shipments.evidence');
-    Route::get('/users/{user}', [UserProfileController::class, 'show'])->name('users.show');
+    Route::get('/shipments/{shipmentVerification}/evidence', [ShipmentVerificationController::class, 'evidence'])
+        ->middleware('role:user,admin,auditor')
+        ->name('shipments.evidence');
 
     Route::middleware('role:user,admin')->group(function () {
+        Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+        Route::get('/product/{product}', [ProductController::class, 'show'])->whereNumber('product')->name('product.show');
+        Route::get('/users/{user}', [UserProfileController::class, 'show'])->name('users.show');
         Route::get('/myprofile', [MyProfileController::class, 'show'])->name('myprofile.show');
         Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
         Route::get('/product/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
@@ -61,11 +65,24 @@ Route::middleware(['auth', 'role:auditor,admin'])->prefix('auditor')->group(func
     Route::patch('/shipments/{shipmentVerification}', [ShipmentVerificationController::class, 'review'])->name('auditor.shipments.review');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'redirect'])
+    ->middleware('auth')
+    ->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
+    Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products.index');
+    Route::patch('/admin/products/{product}/moderate', [AdminController::class, 'moderateProduct'])->name('admin.products.moderate');
+    Route::delete('/admin/products/{product}', [AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users.index');
+    Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
+});
+
+Route::middleware(['auth', 'role:auditor'])->group(function () {
+    Route::get('/auditor/dashboard', [DashboardController::class, 'auditor'])->name('auditor.dashboard');
+});
+
+Route::middleware(['auth', 'role:user,admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

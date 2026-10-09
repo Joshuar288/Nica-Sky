@@ -34,6 +34,7 @@ class ProductFactory extends Factory
             'stock' => fake()->numberBetween(0, 100),
             'state' => fake()->randomElement(['Nuevo', 'Usado', 'Reacondicionado']),
             'views_count' => fake()->numberBetween(0, 5000),
+            'moderation_status' => 'approved',
         ];
     }
 }

@@ -1,6 +1,6 @@
 <div class="card-product">
     <div class="card-product-header">
-        <button>
+        <button type="button">
             <i class="bi bi-cart text-xs"></i>
         </button>
     </div>

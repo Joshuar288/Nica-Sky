@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="NicaSky conecta compradores, emprendedores y proveedores de Nicaragua en un solo marketplace.">
     <title>NicaSky - Conectando emprendedores, compradores y proveedores</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/nicastyle.css'])
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>[x-cloak] { display: none !important; }</style>

@@ -12,6 +12,7 @@ class UserProfileController extends Controller
         $user->load('city');
 
         $products = $user->products()
+            ->where('moderation_status', 'approved')
             ->with(['images', 'category'])
             ->latest()
             ->paginate(12);

@@ -28,7 +28,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('home', absolute: false));
+        // El dashboard redirige según el rol y evita enviar a un auditor a /home.
+        return redirect()->route('dashboard');
     }
 
     /**

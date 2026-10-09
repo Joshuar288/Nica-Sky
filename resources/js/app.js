@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const prev2 = document.getElementById('btn-prev2');
 
     if (track && next && prev) {
-        next.addEventListener('click', () => {
+        next.addEventListener('click', (event) => {
+            event.preventDefault();
             const maxSroll = track.scrollWidth - track.clientWidth;
 
             if (Math.ceil(track.scrollLeft) >= maxSroll - 10) {
@@ -25,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        prev.addEventListener('click', () => {
+        prev.addEventListener('click', (event) => {
+            event.preventDefault();
             const isStart = track.scrollLeft <= 5;
 
             if (isStart) {
@@ -37,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (track2 && next2 && prev2) {
-        next2.addEventListener('click', () => {
+        next2.addEventListener('click', (event) => {
+            event.preventDefault();
             const maxSroll = track2.scrollWidth - track2.clientWidth;
 
             if (Math.ceil(track2.scrollLeft) >= maxSroll - 10) {
@@ -47,7 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        prev2.addEventListener('click', () => {
+        prev2.addEventListener('click', (event) => {
+            event.preventDefault();
             const isStart = track2.scrollLeft <= 5;
 
             if (isStart) {

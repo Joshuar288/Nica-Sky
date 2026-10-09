@@ -10,6 +10,7 @@
             <div>
                 <h1 class="text-2xl font-bold text-gray-900">Crear publicacion</h1>
                 <p class="text-xs text-gray-400 mt-1">Ingresa los datos correspondientes para publicar tu producto en NicaSky</p>
+                <p class="text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 mt-3 inline-flex items-center gap-2"><i class="bi bi-hourglass-split"></i> Tu publicación quedará pendiente de aprobación antes de mostrarse públicamente.</p>
             </div>
             <a href="{{ route('myprofile.show') }}" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-xs font-semibold flex items-center gap-2 transition">
                 <i class="bi bi-arrow-left"></i>

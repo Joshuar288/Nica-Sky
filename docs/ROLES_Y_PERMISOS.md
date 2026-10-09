@@ -55,6 +55,10 @@ Entre sus permisos se encuentran:
 - Presentar evidencias de sus envíos.
 - Consultar la bandeja de verificaciones.
 - Aprobar o rechazar evidencias de envío.
+- Revisar publicaciones y consultar su estado de moderación.
+- Aprobar o rechazar publicaciones indicando el motivo.
+- Eliminar publicaciones que incumplan las reglas.
+- Consultar y eliminar cuentas de usuarios no administrativos.
 
 ### 3.2. Usuario
 
@@ -107,6 +111,10 @@ El auditor no puede crear publicaciones, utilizar el carrito, confirmar compras 
 | Presentar evidencia de envío propia | Sí | Sí | No |
 | Consultar todas las evidencias | Sí | No | Sí |
 | Aprobar o rechazar evidencias | Sí | No | Sí |
+| Revisar publicaciones | Sí | No | No |
+| Rechazar publicaciones con motivo | Sí | No | No |
+| Eliminar publicaciones | Sí | No | No |
+| Gestionar usuarios no administrativos | Sí | No | No |
 
 ---
 
@@ -340,7 +348,11 @@ Para la presentación final se recomienda insertar capturas de:
 | `app/Models/ShipmentVerification.php` | Representa una verificación de envío. |
 | `app/Notifications/ShipmentVerificationNotification.php` | Notifica a auditores y vendedores. |
 | `resources/views/auditor/shipments/index.blade.php` | Presenta la bandeja del auditor. |
+| `app/Http/Controllers/AdminController.php` | Gestiona moderación de publicaciones y usuarios. |
+| `resources/views/admin/products/index.blade.php` | Permite revisar, aprobar, rechazar y eliminar publicaciones. |
+| `resources/views/admin/users/index.blade.php` | Permite consultar y eliminar usuarios no administrativos. |
 | `tests/Feature/RolePermissionsTest.php` | Verifica automáticamente los permisos. |
+| `tests/Feature/AdminManagementTest.php` | Verifica las operaciones administrativas. |
 
 ---
 
