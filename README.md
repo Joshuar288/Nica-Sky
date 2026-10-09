@@ -6,43 +6,50 @@ NicaSky es un marketplace web orientado a conectar emprendedores, compradores y 
 
 ## Estado del proyecto
 
-NicaSky se encuentra en desarrollo. Algunas funciones ya son utilizables y otras describen el flujo previsto para versiones futuras.
+NicaSky cuenta con un marketplace funcional y herramientas de administración y auditoría. La instancia publicada en Azure está disponible en [http://158.23.62.47](http://158.23.62.47). Los pagos, la contratación de planes y las devoluciones representan un flujo de demostración; todavía no procesan movimientos de dinero mediante una pasarela real.
 
 ### Funciones implementadas
 
 - Registro, autenticación y administración del perfil.
 - Perfil público del usuario o tienda, con descripción y catálogo.
-- Roles diferenciados de comprador y vendedor.
-- Cambio controlado de comprador a vendedor.
-- Creación y exploración de publicaciones.
+- Roles de usuario, administrador y auditor, con permisos comprobados en el servidor.
+- Compra y venta desde una cuenta con rol de usuario.
+- Creación, edición y exploración de publicaciones, con reemplazo de imagen y control de propiedad.
+- Moderación de publicaciones: al crearlas o editarlas quedan pendientes de aprobación. Solo las aprobadas aparecen en el catálogo y pueden comprarse.
+- Panel administrativo para buscar, filtrar, aprobar, rechazar con motivo y eliminar publicaciones.
+- Consulta, búsqueda y eliminación de usuarios no administrativos; las cuentas administrativas están protegidas frente a esta eliminación.
 - Imágenes de productos almacenadas en `storage` o servidas desde `public/images` para datos de prueba.
 - Filtros por precio, departamento, ciudad y categoría.
 - Búsqueda por producto, descripción, categoría, vendedor o tienda.
 - Conteo de visitas únicas por usuario y publicación.
 - Productos populares seleccionados entre los más visitados.
 - Carrito almacenado en la sesión.
-- Checkout y confirmación de pago.
+- Checkout y confirmación de pago simulado, con datos de contacto y dirección de entrega.
 - Notificaciones al vendedor después de una compra.
 - Planes Gratuito, Plan Plus, Plan Pro y Plan Nica.
 - Selección de productos recomendados según el límite del plan.
-- Dashboard personalizado para el auditor y Administrador
+- Paneles personalizados para administrador y auditor, con métricas y actividad reciente.
+- Registro de evidencias de envío en JPG, PNG, WebP o PDF de hasta 5 MB, con seguimiento y notas opcionales.
+- Revisión de evidencias por auditores o administradores, con aprobación o rechazo, observaciones, responsable y fecha de revisión.
+- Notificaciones de compra, presentación y revisión de evidencias, y devolución registrada.
+- Vencimiento de compras sin comprobante de envío: registra la devolución simulada y notifica al comprador. El plazo predeterminado es de tres días y se configura con `SHIPMENT_DEADLINE_DAYS`.
 
 ### Funciones planificadas
 
 - Integración con una pasarela para pagos reales.
 - Retención temporal y liberación segura del pago.
 - Integración con servicios de paquetería como CargoTrans.
-- Registro de evidencia del envío y seguimiento del pedido.
-- Reembolsos cuando el vendedor no complete el envío dentro del plazo establecido.
+- Seguimiento automático del pedido mediante integración con una empresa de transporte.
+- Reembolsos reales a través de la pasarela de pago.
 
-## Funcionamiento previsto
+## Funcionamiento actual
 
 ## Roles y permisos
 
 | Función | Administrador | Usuario | Auditor |
 | --- | :---: | :---: | :---: |
-| Explorar productos y perfiles públicos | Sí | Sí | Sí |
-| Administrar su perfil | Sí | Sí | Sí |
+| Explorar productos y perfiles de tiendas | Sí | Sí | No |
+| Editar su perfil desde la plataforma | Sí | Sí | No |
 | Crear y editar publicaciones propias | Sí | Sí | No |
 | Utilizar carrito y confirmar compras | Sí | Sí | No |
 | Comprar planes y destacar publicaciones | Sí | Sí | No |
@@ -50,34 +57,40 @@ NicaSky se encuentra en desarrollo. Algunas funciones ya son utilizables y otras
 | Revisar evidencias de envío | Sí | No | Sí |
 | Aprobar o rechazar una evidencia | Sí | No | Sí |
 | Acceder a toda la administración | Sí | No | No |
+| Moderar y eliminar publicaciones | Sí | No | No |
+| Consultar y eliminar usuarios no administrativos | Sí | No | No |
 
 ### Responsabilidades
 
 - **Administrador:** posee acceso general a la plataforma y puede respaldar las tareas de auditoría.
 - **Usuario:** utiliza el marketplace como comprador o vendedor, administra sus publicaciones y presenta evidencias de sus envíos.
-- **Auditor:** supervisa los comprobantes de envío y registra una decisión. No puede comprar, publicar productos ni contratar planes.
+- **Auditor:** supervisa los comprobantes de envío y registra una decisión desde su panel. Puede consultar notificaciones y las evidencias autorizadas; las rutas comerciales y de edición del perfil están restringidas.
 
 El sistema aplica el principio de mínimo privilegio: cada cuenta recibe únicamente los permisos necesarios. Los usuarios nuevos reciben el rol `user`; los roles `admin` y `auditor` se asignan mediante seeders o por administración controlada de la base de datos.
 
-### Perfiles comerciales planificados
+### Perfiles comerciales
 
-El usuario podrá registrarse como comprador o vendedor. Ambos roles compartirán las herramientas generales, mientras que el vendedor podrá administrar la información de su negocio y sus publicaciones. También se contempla permitir el cambio de comprador a vendedor.
+Las cuentas nuevas reciben el rol `user`, que permite comprar y vender sin cambiar de rol. El perfil permite actualizar nombre, correo, teléfono, ciudad, nombre del negocio y descripción. Los roles administrativos y de auditoría son independientes de estas actividades comerciales.
 
 ### Publicaciones y perfiles públicos
 
 Los usuarios pueden crear publicaciones con título, descripción, categoría, precio, disponibilidad, estado e imagen. Cada publicación enlaza al perfil público de su creador, donde se muestra la información de la tienda, su descripción y el resto de sus productos.
 
+Al crear o editar una publicación, su estado de moderación pasa a `pending`. Un administrador puede aprobarla (`approved`) o rechazarla (`rejected`) indicando el motivo. Las publicaciones pendientes o rechazadas no se ofrecen en el catálogo; el propietario puede consultarlas y editarlas desde su perfil.
+
 ### Compra, pago y envío
 
-Permite añadir productos al carrito, realizar compras y confirmacion del mismo. Al confirmar, el vendedor recibe una notificación con los productos solicitados, los datos del comprador y la dirección indicada.
+El carrito permite añadir productos, actualizar cantidades, eliminar artículos y vaciar la selección. Al confirmar el checkout simulado, se genera una notificación por vendedor con sus productos solicitados, los datos del comprador y la dirección indicada. Solo se registra la terminación de la tarjeta; no se guarda el número completo ni el CVV.
 
-El pago será procesado mediante una pasarela de pago y permanecerá retenido mientras el vendedor realiza el envío mediante un servicio como CargoTrans. El vendedor deberá presentar evidencia del despacho. Después de verificarla, la plataforma podrá liberar el dinero, sin embargo si el envío no se completa dentro del plazo establecido, se contempla devolverlo al comprador.
+Desde la notificación de compra, el vendedor puede adjuntar un comprobante de despacho y, opcionalmente, un número de seguimiento y observaciones. El auditor o administrador revisa la evidencia una sola vez, registra su decisión y notifica al vendedor. El rechazo requiere observaciones. La consulta mediante la ruta de evidencias comprueba que la cuenta sea del vendedor propietario o tenga permisos de auditoría; los archivos se guardan actualmente en el disco público de Laravel.
+
+El comando `php artisan purchases:expire-unshipped` procesa las compras cuyo plazo venció y que no tienen ninguna evidencia registrada. Marca el pago como devuelto y notifica al comprador, sin ejecutar un reembolso bancario real. Una evidencia registrada, incluso pendiente o rechazada, excluye la compra de este procesamiento automático. El comando está programado cada hora en `routes/console.php` y requiere que el programador de Laravel se ejecute en el servidor.
 
 ### Productos recomendados y planes
 
 Los productos recomendados obtienen mayor visibilidad en la página de inicio. El cupo depende del plan del vendedor:
 
-Los usuarios del Plan Plus y Plan Pro pueden decidir al crear una publicación si desean utilizar uno de sus cupos para hacer que esa publicacion aperesca en recomendados. Donde Plan Plus tendra 5 cupos para 5 publicaciones, el Plan Pro tendra 15. El Plan Nica incluye automáticamente todas las publicaciones en la seccion de recomendados.
+Los usuarios del Plan Plus y Plan Pro pueden seleccionar publicaciones recomendadas al crearlas o editarlas. Plan Plus permite hasta 5 y Plan Pro hasta 15. Plan Nica no tiene límite: al contratarlo se destacan las publicaciones existentes y las nuevas se marcan automáticamente como recomendadas; al editar una publicación se puede desmarcar esa selección. La contratación simulada permite ascender a un plan superior al actual. La moderación también se aplica a las publicaciones recomendadas.
 
 ## Tecnologías
 
@@ -116,7 +129,7 @@ Para Windows se recomienda Laragon. También puede utilizarse XAMPP u otro entor
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/Tu-Nombre/Nica-Sky.git
+git clone https://github.com/Joshuar288/Nica-Sky.git
 cd Nica-Sky
 ```
 
@@ -187,8 +200,6 @@ php artisan migrate --seed
 Si no existe la base de datos en mysql, la ejecucion de este comando le permitira crearlo con una confirmacion de su parte.
 Los seeders crean ciudades, categorías, usuarios administrativos y 100 productos de prueba con imágenes tomadas de `public/images`.
 
-Si deseas reconstruir completamente una base de desarrollo existente:
-
 ### 7. Crear el enlace de almacenamiento
 
 ```bash
@@ -236,6 +247,79 @@ Como alternativa, el proyecto incluye un comando que inicia servidor, Vite, cola
 ```bash
 composer run dev
 ```
+
+## Despliegue en Azure
+
+La dirección pública de la instancia en Azure, proporcionada por el responsable del proyecto, es [http://158.23.62.47](http://158.23.62.47).
+
+### Datos del despliegue
+
+| Dato | Estado documentado |
+| --- | --- |
+| Dirección pública | `http://158.23.62.47` |
+| Código fuente | [Joshuar288/Nica-Sky](https://github.com/Joshuar288/Nica-Sky), rama `main` |
+| Artefacto disponible en el repositorio | `dist/NicaSky-web-build-2026-10-08.zip` |
+| Contenido verificado del ZIP | Aplicación Laravel, dependencias PHP en `vendor` y recursos compilados en `public/build`, incluido `manifest.json` |
+| Servicio de Azure, sistema operativo y servidor web | Pendientes de confirmar con el responsable del despliegue |
+| Ubicación y configuración de la base de datos | Pendientes de confirmar; el proyecto incluye configuración para MySQL |
+| Método utilizado para publicar la instancia | Pendiente de confirmar; la presencia del ZIP no demuestra que se haya utilizado en Azure |
+| Commit ejecutado en Azure | Pendiente de verificar en el servidor |
+
+La URL y el paquete disponible están documentados. El repositorio no contiene una configuración de infraestructura o un flujo de despliegue que permita identificar los demás datos de la instancia. Esta sección debe completarse con la configuración real del servidor para dejar constancia de cómo quedó desplegado.
+
+### Actualización del Repositorio
+
+El código final que está funcionando en Azure debe ser exactamente el mismo que está subido a la rama principal de GitHub, y el documento README debe explicar cómo quedó desplegado el proyecto en Azure.
+
+Para cumplir este requisito, cada publicación debe partir de un commit de `main` ya subido a GitHub. Los cambios hechos en el servidor deben incorporarse al repositorio y volver a desplegarse desde esa versión. Las credenciales, la configuración del entorno, los datos de la base y los archivos subidos por usuarios se administran por separado del código fuente.
+
+En una copia de trabajo destinada a preparar la publicación, comprueba la versión:
+
+```bash
+git switch main
+git pull --ff-only origin main
+git status --short
+git rev-parse HEAD
+git rev-parse origin/main
+```
+
+La copia debe estar limpia y ambos identificadores deben coincidir. Si la publicación utiliza un ZIP, debe regenerarse a partir de ese commit; un ZIP anterior no se actualiza cuando cambia `main`. Registra el identificador del commit publicado junto con la fecha, el método de publicación y el recurso de Azure utilizado. Si el servidor conserva una copia Git, comprueba allí `git rev-parse HEAD` y `git status --short`; para una publicación por ZIP, compara los archivos de aplicación desplegados con los del commit registrado. Hasta realizar esa comprobación, la coincidencia entre Azure y `main` no se considera verificada.
+
+### Preparación de la aplicación para producción
+
+Estos pasos describen los requisitos de la aplicación y deben adaptarse al servicio de Azure realmente utilizado; no constituyen un registro de comandos ya ejecutados en la instancia.
+
+1. Instalar las dependencias desde los archivos de bloqueo y compilar los recursos antes de publicar el paquete:
+
+   ```bash
+   composer install --no-dev --prefer-dist --optimize-autoloader
+   npm ci
+   npm run build
+   ```
+
+2. Configurar el servidor web para servir únicamente el directorio `public` y enviar las rutas de la aplicación a `public/index.php`.
+3. Configurar el entorno de producción con `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL` igual a la dirección publicada, una `APP_KEY` persistente y las credenciales de la base de datos. Mantener la misma clave en las actualizaciones.
+4. Asegurar almacenamiento persistente y permisos de escritura para `storage` y `bootstrap/cache`. Conservar las imágenes y evidencias entre publicaciones.
+5. Ejecutar los comandos de preparación con el entorno de producción configurado:
+
+   ```bash
+   php artisan migrate --force
+   php artisan storage:link
+   php artisan optimize
+   ```
+
+6. Configurar la ejecución de `php artisan schedule:run` cada minuto. Laravel invoca cada hora `purchases:expire-unshipped`; sin este proceso, las devoluciones simuladas por vencimiento no se ejecutan automáticamente.
+7. Comprobar la respuesta de `/up`, el inicio de sesión, la carga de recursos e imágenes, la moderación y el flujo de evidencias. Registrar los resultados con el commit publicado.
+
+Los seeders generales incluyen cuentas con contraseñas conocidas y productos de demostración. En producción se deben cargar los catálogos necesarios y crear las cuentas administrativas con credenciales propias, sin ejecutar indiscriminadamente la carga de demostración.
+
+## Pruebas automatizadas
+
+```bash
+php artisan test
+```
+
+La suite incluye pruebas de permisos por rol, administración y moderación, edición de productos, actualización de perfiles, autenticación y vencimiento de compras sin evidencia. Estas pruebas comprueban el comportamiento de la aplicación; la publicación en Azure también requiere las comprobaciones del entorno descritas anteriormente.
 
 ## Usuarios de prueba
 
