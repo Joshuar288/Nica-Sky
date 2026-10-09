@@ -1,12 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
 :root {
-    --color-brand1: #4764bb;
-    --color-brand2: #5eaf56;
-    --color-brand3: #62c2b0;
+    --color-brand1: #009998;
+    --color-brand2: #0058ed;
+    --color-brand3: #0b132a;
     --color-brand4: #f8f8f8;
     --color-brand5: #0b132a;
 
+    --brand-turquoise: #009998;
+    --brand-blue: #0058ed;
+    --brand-navy: #0b132a;
+    --brand-light: #f8f8f8;
+
     --font-family: 'Roboto', sans-serif;
     font-size: 100%;
+}
+
+html,
+body,
+.font-sans,
+button,
+input,
+textarea,
+select {
+    font-family: var(--font-family) !important;
+}
+
+/* Paleta oficial de NicaSky: turquesa, azul, navy y gris claro. */
+[class*="bg-[#1d3557]"],
+[class*="bg-[#25416b]"],
+[class*="bg-[#0f2137]"],
+.bg-blue-600 {
+    background-color: var(--brand-blue) !important;
+}
+
+[class*="bg-[#1e2942]"] {
+    background-color: var(--brand-turquoise) !important;
+}
+
+.bg-cyan-500 {
+    background-color: var(--brand-turquoise) !important;
+}
+
+[class*="hover:bg-[#162038]"]:hover,
+[class*="hover:bg-[#25416b]"]:hover,
+[class*="hover:bg-[#162d4a]"]:hover,
+.hover\:bg-blue-700:hover,
+.hover\:bg-cyan-400:hover {
+    background-color: var(--brand-navy) !important;
+}
+
+aside nav [class*="hover:bg-[#162038]"]:hover {
+    background-color: var(--brand-blue) !important;
+}
+
+[class*="text-[#1d3557]"],
+[class*="text-[#0f2137]"] {
+    color: var(--brand-blue) !important;
+}
+
+.text-blue-600,
+.text-blue-700,
+.hover\:text-blue-600:hover,
+.hover\:text-blue-700:hover {
+    color: var(--brand-turquoise) !important;
+}
+
+.text-blue-800 {
+    color: #003b9f !important;
+}
+
+.bg-blue-50 {
+    background-color: #e8f8f8 !important;
+}
+
+.bg-blue-100 {
+    background-color: #ccefee !important;
+}
+
+.border-blue-100 {
+    border-color: #a3dedc !important;
+}
+
+.bg-gray-50 {
+    background-color: var(--brand-light) !important;
+}
+
+.bg-gray-100,
+[class*="bg-[#faf9f5]"] {
+    background-color: var(--brand-light) !important;
+}
+
+.bg-cyan-400 {
+    background-color: #00b7b5 !important;
+}
+
+.text-cyan-400,
+.text-cyan-500,
+.text-teal-500,
+.text-teal-600 {
+    color: var(--brand-turquoise) !important;
+}
+
+.bg-teal-50 {
+    background-color: #e8f8f8 !important;
+}
+
+.bg-teal-500,
+.bg-teal-600 {
+    background-color: var(--brand-turquoise) !important;
+}
+
+.hover\:bg-teal-600:hover {
+    background-color: #007d7c !important;
 }
 
 .section-popular-products {

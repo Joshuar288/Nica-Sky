@@ -7,8 +7,8 @@
         <div class= "header-section">
             <h2 class= "title-section">Productos Populares</h2>
             <div class="section-nextprev">
-                <button class= "btn-section" id="btn-prev"><</button>
-                <button class= "btn-section" id="btn-next">></button>
+                <button type="button" class="btn-section" id="btn-prev" aria-label="Productos anteriores">&lt;</button>
+                <button type="button" class="btn-section" id="btn-next" aria-label="Productos siguientes">&gt;</button>
             </div>
         </div>
 
@@ -16,9 +16,12 @@
             @foreach($popularProducts as $product)
                 <div class="min-w-0 max-w-[calc(25%_-_1.6rem)] overflow-hidden bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col flex-[0_0_calc(25%_-_1.6rem)] justify-between relative group hover:shadow-md transition">
                     <!-- Boton Carrito -->
-                    <button class="absolute top-6 left-6 z-10 w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition">
-                        <i class="bi bi-cart text-xs"></i>
-                    </button>
+                    <form action="{{ route('cart.store', $product) }}" method="POST" class="absolute top-6 left-6 z-10">
+                        @csrf
+                        <button type="submit" class="w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition" aria-label="Añadir {{ $product->title }} al carrito">
+                            <i class="bi bi-cart text-xs"></i>
+                        </button>
+                    </form>
 
                     <!-- Imagen del Producto -->
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
@@ -69,8 +72,8 @@
         <div class= "header-section">
             <h2 class= "title-section">Productos Recomendados</h2>
             <div class="section-nextprev">
-                <button class= "btn-section" id="btn-prev2"><</button>
-                <button class= "btn-section" id="btn-next2">></button>
+                <button type="button" class="btn-section" id="btn-prev2" aria-label="Productos recomendados anteriores">&lt;</button>
+                <button type="button" class="btn-section" id="btn-next2" aria-label="Productos recomendados siguientes">&gt;</button>
             </div>
         </div>
 
@@ -78,9 +81,12 @@
             @foreach($recommendedProducts as $product)
                 <div class="min-w-0 max-w-[calc(25%_-_1.6rem)] overflow-hidden bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col flex-[0_0_calc(25%_-_1.6rem)] justify-between relative group hover:shadow-md transition">
                     <!-- Boton Carrito -->
-                    <button class="absolute top-6 left-6 z-10 w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition">
-                        <i class="bi bi-cart text-xs"></i>
-                    </button>
+                    <form action="{{ route('cart.store', $product) }}" method="POST" class="absolute top-6 left-6 z-10">
+                        @csrf
+                        <button type="submit" class="w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition" aria-label="Añadir {{ $product->title }} al carrito">
+                            <i class="bi bi-cart text-xs"></i>
+                        </button>
+                    </form>
 
                     <!-- Imagen del Producto -->
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">

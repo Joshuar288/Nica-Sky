@@ -40,8 +40,8 @@
                                 <label class="block text-xs font-semibold text-gray-600 mb-2">Observaciones</label>
                                 <textarea name="review_notes" rows="3" maxlength="1000" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:border-[#0b132a] focus:ring-1 focus:ring-[#0b132a]" placeholder="Obligatorias si rechazas"></textarea>
                                 <div class="grid grid-cols-2 gap-2 mt-3">
-                                    <button name="status" value="rejected" class="py-2.5 rounded-xl border border-red-200 text-xs font-semibold text-red-600 hover:bg-red-50">Rechazar</button>
-                                    <button name="status" value="approved" class="py-2.5 rounded-xl bg-green-600 text-xs font-semibold text-white hover:bg-green-700">Aprobar</button>
+                                    <button type="submit" name="status" value="rejected" class="py-2.5 rounded-xl border border-red-200 text-xs font-semibold text-red-600 hover:bg-red-50">Rechazar</button>
+                                    <button type="submit" name="status" value="approved" class="py-2.5 rounded-xl bg-green-600 text-xs font-semibold text-white hover:bg-green-700">Aprobar</button>
                                 </div>
                             </form>
                         @elseif($verification->review_notes)

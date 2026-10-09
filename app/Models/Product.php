@@ -22,6 +22,10 @@ class Product extends Model
         'stock',
         'state',
         'is_recommended',
+        'moderation_status',
+        'moderated_by',
+        'moderation_notes',
+        'moderated_at',
     ];
 
     protected function casts(): array
@@ -29,6 +33,7 @@ class Product extends Model
         return [
             'views_count' => 'integer',
             'is_recommended' => 'boolean',
+            'moderated_at' => 'datetime',
         ];
     }
 
@@ -67,5 +72,10 @@ class Product extends Model
     public function viewers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'product_views')->withTimestamps();
+    }
+
+    public function moderator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'moderated_by');
     }
 }

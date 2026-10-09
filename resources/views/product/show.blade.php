@@ -81,6 +81,7 @@
                         </div>
                     </div>
 
+                    @if($product->moderation_status === 'approved')
                     <form action="{{ route('cart.store', $product) }}" method="POST">
                         @csrf
                         <button type="submit" class="shrink-0 inline-flex items-center gap-2 px-5 py-3 bg-[#0b132a] hover:bg-[#162038] text-white rounded-full text-sm font-semibold transition">
@@ -88,6 +89,13 @@
                             Añadir al carrito
                         </button>
                     </form>
+                    @else
+                        @php($moderationLabels = ['pending' => 'Pendiente', 'rejected' => 'Rechazada'])
+                        <span class="shrink-0 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold">
+                            <i class="bi bi-hourglass-split"></i>
+                            {{ $moderationLabels[$product->moderation_status] ?? 'No aprobada' }}
+                        </span>
+                    @endif
                 </div>
             </div>
         </div>

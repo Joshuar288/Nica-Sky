@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\City;
-use App\Models\Product;
 use App\Models\Image;
+use App\Models\Product;
 use App\Models\User;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -63,6 +62,7 @@ class ProductController extends Controller
             ->values();
 
         $products = Product::with(['images', 'user.city'])
+            ->where('moderation_status', 'approved')
             ->when($searchTerms->isNotEmpty(), function ($query) use ($searchTerms) {
                 $query->where(function ($searchQuery) use ($searchTerms) {
                     foreach ($searchTerms as $term) {
@@ -130,6 +130,13 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        abort_if(
+            $product->moderation_status !== 'approved'
+                && $product->user_id !== auth()->id()
+                && ! auth()->user()->isAdmin(),
+            404,
+        );
+
         DB::transaction(function () use ($product) {
             $isFirstView = DB::table('product_views')->insertOrIgnore([
                 'user_id' => auth()->id(),
@@ -146,6 +153,7 @@ class ProductController extends Controller
         $product->load(['images', 'category', 'user.city']);
 
         $relatedProducts = Product::with(['images', 'user'])
+            ->where('moderation_status', 'approved')
             ->where('category_id', $product->category_id)
             ->whereKeyNot($product->getKey())
             ->latest()
@@ -159,13 +167,13 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
-            'price'       => 'required|numeric|min:0',
-            'unit'        => 'required|string|max:50',
-            'stock'       => 'nullable|integer|min:0',
-            'state'       => 'required|string|in:Nuevo,Usado,Reacondicionado',
-            'image'       => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'price' => 'required|numeric|min:0',
+            'unit' => 'required|string|max:50',
+            'stock' => 'nullable|integer|min:0',
+            'state' => 'required|string|in:Nuevo,Usado,Reacondicionado',
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'is_recommended' => 'nullable|boolean',
         ]);
 
@@ -190,6 +198,7 @@ class ProductController extends Controller
                 'stock' => $validated['stock'] ?? null,
                 'state' => $validated['state'],
                 'is_recommended' => $isRecommended,
+                'moderation_status' => 'pending',
             ]);
         });
 
@@ -199,8 +208,8 @@ class ProductController extends Controller
 
             Image::create([
                 'product_id' => $product->id,
-                'rute'       => $path,
-                'is_first'   => true, // Marcada como primera/principal
+                'rute' => $path,
+                'is_first' => true, // Marcada como primera/principal
             ]);
         }
 
@@ -264,6 +273,10 @@ class ProductController extends Controller
                     'stock' => $validated['stock'] ?? null,
                     'state' => $validated['state'],
                     'is_recommended' => $isRecommended,
+                    'moderation_status' => 'pending',
+                    'moderated_by' => null,
+                    'moderation_notes' => null,
+                    'moderated_at' => null,
                 ]);
 
                 if ($newImagePath) {

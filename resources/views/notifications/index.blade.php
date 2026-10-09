@@ -13,7 +13,17 @@
 
         @forelse($notifications as $notification)
             @php($data = $notification->data)
-            @if(($data['kind'] ?? null) === 'shipment_submitted')
+            @if(($data['kind'] ?? null) === 'purchase_refunded')
+                <article class="bg-red-50 border border-red-100 rounded-2xl p-6 shadow-sm mb-5 flex items-start gap-4">
+                    <div class="w-11 h-11 shrink-0 rounded-full bg-white text-red-600 flex items-center justify-center"><i class="bi bi-arrow-counterclockwise text-xl"></i></div>
+                    <div class="flex-1">
+                        <h2 class="font-bold text-red-900">{{ $data['title'] }}</h2>
+                        <p class="text-sm text-red-800 mt-1">El pago de tu compra fue devuelto porque no se recibió el comprobante de envío dentro del plazo establecido.</p>
+                        @if(!empty($data['reason']))<p class="text-xs text-red-700 mt-2">{{ $data['reason'] }}</p>@endif
+                        <p class="text-xs text-red-600 mt-2">Total devuelto: C$ {{ number_format($data['total'] ?? 0, 2) }}</p>
+                    </div>
+                </article>
+            @elseif(($data['kind'] ?? null) === 'shipment_submitted')
                 <article class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm mb-5 flex items-start gap-4">
                     <div class="w-11 h-11 shrink-0 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center"><i class="bi bi-shield-check text-xl"></i></div>
                     <div class="flex-1">
@@ -39,8 +49,17 @@
                                 <h2 class="font-bold text-gray-900">{{ $data['title'] }}</h2>
                                 <p class="text-xs text-gray-400">{{ $notification->created_at->diffForHumans() }}</p>
                             </div>
-                            <span class="px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-semibold">{{ $data['payment']['status'] }}</span>
+                            <span class="px-3 py-1 rounded-full {{ ($data['shipment_status'] ?? null) === 'refunded' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700' }} text-xs font-semibold">{{ $data['payment']['status'] }}</span>
                         </div>
+
+                        @if(($data['shipment_status'] ?? null) === 'refunded')
+                            <div class="mb-5 p-4 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
+                                <p class="font-semibold">Pago devuelto</p>
+                                <p class="mt-1 text-xs">El pago fue devuelto porque no se recibió el comprobante de envío dentro del plazo establecido.</p>
+                            </div>
+                        @elseif(!empty($data['shipment_deadline']))
+                            <p class="mb-5 text-xs text-amber-700">Debes enviar el comprobante antes del {{ \Carbon\Carbon::parse($data['shipment_deadline'])->format('d/m/Y H:i') }}.</p>
+                        @endif
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-5">
                             <div class="rounded-xl bg-gray-50 p-4">
@@ -73,7 +92,9 @@
 
                         @php($verification = $verifications->get($notification->id))
                         <div class="mt-5 pt-5 border-t border-gray-100">
-                            @if($verification)
+                            @if(($data['shipment_status'] ?? null) === 'refunded')
+                                <div class="p-4 rounded-xl bg-red-50 text-red-700 text-sm font-semibold">Este pedido ya no admite comprobantes de envío porque el pago fue devuelto.</div>
+                            @elseif($verification)
                                 <div class="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl {{ $verification->status === 'approved' ? 'bg-green-50 text-green-700' : ($verification->status === 'rejected' ? 'bg-red-50 text-red-700' : 'bg-amber-50 text-amber-700') }}">
                                     <span class="text-sm font-semibold">Evidencia de envío: {{ ['pending' => 'pendiente de revisión', 'approved' => 'aprobada', 'rejected' => 'rechazada'][$verification->status] }}</span>
                                     <a href="{{ route('shipments.evidence', $verification) }}" target="_blank" class="text-xs font-semibold underline">Ver comprobante</a>
@@ -86,7 +107,7 @@
                                         <div><label class="block text-xs font-semibold text-gray-600 mb-2">Número de seguimiento</label><input name="tracking_number" maxlength="100" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs" placeholder="Opcional"></div>
                                         <div><label class="block text-xs font-semibold text-gray-600 mb-2">Evidencia del envío</label><input name="evidence" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required class="w-full text-xs text-gray-500 file:mr-3 file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-white"></div>
                                         <div class="sm:col-span-2"><label class="block text-xs font-semibold text-gray-600 mb-2">Notas</label><textarea name="seller_notes" rows="2" maxlength="1000" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs" placeholder="Información adicional para el auditor"></textarea></div>
-                                        <button class="sm:col-span-2 justify-self-start px-5 py-2.5 rounded-full bg-[#1d3557] text-white text-xs font-semibold">Enviar a verificación</button>
+                                        <button type="submit" class="sm:col-span-2 justify-self-start px-5 py-2.5 rounded-full bg-[#1d3557] text-white text-xs font-semibold">Enviar a verificación</button>
                                     </form>
                                 </details>
                             @endif

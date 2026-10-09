@@ -88,9 +88,12 @@
                         <span>Modificar</span>
                     </a>
                     <!-- Boton Carrito -->
-                    <button class="absolute top-6 left-6 z-10 w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition">
-                        <i class="bi bi-cart text-xs"></i>
-                    </button>
+                    <form action="{{ route('cart.store', $product) }}" method="POST" class="absolute top-6 left-6 z-10">
+                        @csrf
+                        <button type="submit" class="w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition" aria-label="Añadir {{ $product->title }} al carrito">
+                            <i class="bi bi-cart text-xs"></i>
+                        </button>
+                    </form>
 
                     <!-- Imagen del Producto -->
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative" aria-label="Ver detalles de {{ $product->title }}">
@@ -107,10 +110,36 @@
                                 {{ $product->state }}
                             </span>
                         @endif
+
+                        @php($moderationLabels = ['pending' => 'Pendiente', 'approved' => 'Aprobada', 'rejected' => 'Rechazada'])
+                        <span class="absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] font-semibold shadow-sm {{ $product->moderation_status === 'rejected' ? 'bg-red-50 text-red-700' : ($product->moderation_status === 'pending' ? 'bg-amber-50 text-amber-700' : 'bg-green-50 text-green-700') }}">
+                            {{ $moderationLabels[$product->moderation_status] ?? 'Pendiente' }}
+                        </span>
                     </a>
 
                     <!-- Informacion del Producto -->
                     <div>
+                        @if($product->moderation_status === 'pending')
+                            <div class="mb-3 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-amber-800">
+                                <i class="bi bi-hourglass-split mt-0.5"></i>
+                                <div>
+                                    <p class="text-[11px] font-bold">Publicación pendiente</p>
+                                    <p class="mt-0.5 text-[10px] leading-4 text-amber-700">Está en revisión y todavía no se muestra públicamente.</p>
+                                </div>
+                            </div>
+                        @elseif($product->moderation_status === 'rejected')
+                            <div class="mb-3 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-red-800">
+                                <i class="bi bi-exclamation-circle mt-0.5"></i>
+                                <div>
+                                    <p class="text-[11px] font-bold">Publicación rechazada</p>
+                                    <p class="mt-0.5 text-[10px] leading-4 text-red-700">Corrige los datos y vuelve a guardarla para solicitar una nueva revisión.</p>
+                                    @if($product->moderation_notes)
+                                        <p class="mt-1 border-t border-red-200 pt-1 text-[10px] leading-4 text-red-700"><span class="font-bold">Motivo:</span> {{ $product->moderation_notes }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="mb-3">
                             @if($product->is_recommended)
                                 <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold text-amber-700 ring-1 ring-inset ring-amber-200">

@@ -16,6 +16,7 @@ class CartController extends Controller
         $cart = $request->session()->get('cart', []);
 
         $products = Product::with('images')
+            ->where('moderation_status', 'approved')
             ->whereKey(array_keys($cart))
             ->get()
             ->map(function (Product $product) use ($cart) {
@@ -39,6 +40,7 @@ class CartController extends Controller
         }
 
         $products = Product::with('images')
+            ->where('moderation_status', 'approved')
             ->whereKey(array_keys($cart))
             ->get()
             ->map(function (Product $product) use ($cart) {
@@ -72,7 +74,10 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('success', 'El carrito está vacío.');
         }
 
-        $products = Product::with('user')->whereKey(array_keys($cart))->get();
+        $products = Product::with('user')
+            ->where('moderation_status', 'approved')
+            ->whereKey(array_keys($cart))
+            ->get();
 
         if ($products->isEmpty()) {
             $request->session()->forget('cart');
@@ -100,6 +105,9 @@ class CartController extends Controller
 
                 $sellerProducts->first()->user->notify(new ProductPurchasedNotification([
                     'title' => 'Nueva compra recibida',
+                    'kind' => 'purchase_received',
+                    'shipment_status' => 'pending',
+                    'shipment_deadline' => now()->addDays(config('purchases.shipment_deadline_days', 3))->toISOString(),
                     'buyer' => [
                         'id' => $buyer->id,
                         'name' => $validated['name'],
@@ -124,6 +132,8 @@ class CartController extends Controller
 
     public function store(Request $request, Product $product): RedirectResponse
     {
+        abort_if($product->moderation_status !== 'approved', 404);
+
         $cart = $request->session()->get('cart', []);
         $cart[$product->id] = ($cart[$product->id] ?? 0) + 1;
 

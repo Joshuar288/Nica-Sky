@@ -10,6 +10,7 @@ class HomeController extends Controller
     public function index(): View
     {
         $popularProducts = Product::with(['images', 'user'])
+            ->where('moderation_status', 'approved')
             ->orderByDesc('views_count')
             ->latest()
             ->limit(50)
@@ -18,6 +19,7 @@ class HomeController extends Controller
             ->take(8);
 
         $recommendedProducts = Product::with(['images', 'user'])
+            ->where('moderation_status', 'approved')
             ->where('is_recommended', true)
             ->latest()
             ->limit(8)
@@ -29,6 +31,7 @@ class HomeController extends Controller
     public function popular(): View
     {
         $popularProducts = Product::with(['images', 'user'])
+            ->where('moderation_status', 'approved')
             ->orderByDesc('views_count')
             ->latest()
             ->limit(50)
@@ -42,6 +45,7 @@ class HomeController extends Controller
     public function recommended(): View
     {
         $recommendedProducts = Product::with(['images', 'user'])
+            ->where('moderation_status', 'approved')
             ->where('is_recommended', true)
             ->latest()
             ->paginate(15);
