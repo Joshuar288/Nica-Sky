@@ -122,7 +122,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
                     @foreach($relatedProducts as $relatedProduct)
-                        <article class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col group hover:shadow-md transition">
+                        <article class="product-card bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col group hover:shadow-md transition">
                             <a href="{{ route('product.show', $relatedProduct) }}"
                                class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative"
                                aria-label="Ver detalles de {{ $relatedProduct->title }}">

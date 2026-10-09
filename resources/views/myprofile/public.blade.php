@@ -46,7 +46,7 @@
 
         <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6">
             @forelse($products as $product)
-                <article class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col group hover:shadow-md transition">
+                <article class="product-card bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col group hover:shadow-md transition">
                     <a href="{{ route('product.show', $product) }}" class="h-44 rounded-xl overflow-hidden mb-4 bg-gray-50 flex items-center justify-center relative">
                         @if($product->images->isNotEmpty())
                             <img src="{{ $product->images->first()->url }}" alt="{{ $product->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">

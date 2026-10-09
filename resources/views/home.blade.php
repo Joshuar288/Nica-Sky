@@ -14,7 +14,7 @@
 
         <div class= "body-section-carousel" id="carousell-1">
             @foreach($popularProducts as $product)
-                <div class="min-w-0 max-w-[calc(25%_-_1.6rem)] overflow-hidden bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col flex-[0_0_calc(25%_-_1.6rem)] justify-between relative group hover:shadow-md transition">
+                <div class="product-card min-w-0 max-w-[calc(25%_-_1.6rem)] overflow-hidden bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col flex-[0_0_calc(25%_-_1.6rem)] justify-between relative group hover:shadow-md transition">
                     <!-- Boton Carrito -->
                     <form action="{{ route('cart.store', $product) }}" method="POST" class="absolute top-6 left-6 z-10">
                         @csrf
@@ -79,7 +79,7 @@
 
         <div class= "body-section-carousel" id="carousell-2">
             @foreach($recommendedProducts as $product)
-                <div class="min-w-0 max-w-[calc(25%_-_1.6rem)] overflow-hidden bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col flex-[0_0_calc(25%_-_1.6rem)] justify-between relative group hover:shadow-md transition">
+                <div class="product-card min-w-0 max-w-[calc(25%_-_1.6rem)] overflow-hidden bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col flex-[0_0_calc(25%_-_1.6rem)] justify-between relative group hover:shadow-md transition">
                     <!-- Boton Carrito -->
                     <form action="{{ route('cart.store', $product) }}" method="POST" class="absolute top-6 left-6 z-10">
                         @csrf

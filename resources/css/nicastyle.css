@@ -153,6 +153,41 @@ aside nav [class*="hover:bg-[#162038]"]:hover {
     justify-content:space-around;
     overflow-x: auto;
     scrollbar-width: none;
+    padding: 0.5rem 0.25rem 1.25rem;
+}
+
+.product-card,
+.card-product {
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.product-card:focus-within,
+.card-product:focus-within {
+    border-color: var(--brand-turquoise);
+    box-shadow: 0 10px 20px -8px rgb(11 19 42 / 22%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .product-card:hover,
+    .card-product:hover {
+        transform: translateY(-5px);
+        border-color: var(--brand-turquoise);
+        box-shadow: 0 10px 20px -8px rgb(11 19 42 / 22%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .product-card,
+    .card-product,
+    .product-card img {
+        transition: none;
+    }
+
+    .product-card:hover,
+    .card-product:hover,
+    .product-card:hover img {
+        transform: none;
+    }
 }
 
 .card-product {

@@ -80,7 +80,7 @@
         <!-- Grilla Dinamica del Catalogo -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-2">
             @forelse($user->products as $product)
-                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative group hover:shadow-md transition">
+                <div class="product-card bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative group hover:shadow-md transition">
                     <a href="{{ route('product.edit', $product) }}"
                     class="absolute top-6 right-6 z-20 inline-flex h-8 items-center gap-1.5 rounded-full bg-white px-3 text-[11px] font-semibold text-[#0b132a] shadow-md transition hover:bg-[#0b132a] hover:text-white"
                     aria-label="Modificar {{ $product->title }}">

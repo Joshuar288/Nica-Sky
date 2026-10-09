@@ -14,7 +14,7 @@
 
         <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6">
             @forelse($recommendedProducts as $product)
-                <article class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative group hover:shadow-md transition">
+                <article class="product-card bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative group hover:shadow-md transition">
                     <span class="absolute top-6 left-6 z-10 inline-flex items-center gap-1 px-2.5 py-1 bg-[#0b132a] text-white rounded-full text-[10px] font-semibold shadow-md">
                         <i class="bi bi-gem"></i>Premium
                     </span>

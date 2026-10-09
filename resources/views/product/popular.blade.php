@@ -15,7 +15,7 @@
 
         <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6">
             @forelse($popularProducts as $product)
-                <article class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative group hover:shadow-md transition">
+                <article class="product-card bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative group hover:shadow-md transition">
                     <form action="{{ route('cart.store', $product) }}" method="POST" class="absolute top-6 left-6 z-10">
                         @csrf
                         <button type="submit" class="w-8 h-8 bg-[#0b132a] text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition" aria-label="Añadir {{ $product->title }} al carrito">
